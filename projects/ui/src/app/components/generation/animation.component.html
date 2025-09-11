@@ -1,0 +1,164 @@
+<div class="animation-container">
+  <h1>{{ 'ANIMATION_GENERATION.TITLE' | translate }}</h1>
+
+  <div class="layout-container">
+    <!-- Left Column: User Input Form -->
+    <div class="left-column">
+      <div class="generation-form">
+        <h4>{{ 'ANIMATION_GENERATION.GENERATION_SETTINGS' | translate }}</h4>
+        <div class="form-content">
+          <!-- Base Image Section -->
+          <div class="form-section">
+            <h3>{{ 'ANIMATION_GENERATION.BASE_IMAGE' | translate }}</h3>
+
+            <div class="form-group">
+              <label for="imageUrl">{{ 'ANIMATION_GENERATION.IMAGE_URL' | translate }}</label>
+              <div class="url-input-container">
+                <input
+                  id="imageUrl"
+                  type="url"
+                  [(ngModel)]="imageUrl"
+                  (input)="onFormChange()"
+                  [placeholder]="'ANIMATION_GENERATION.IMAGE_URL_PLACEHOLDER' | translate"
+                  class="url-input"
+                />
+                <div *ngIf="imageUrl" class="thumbnail-preview">
+                  <img
+                    [src]="imageUrl"
+                    alt="Preview"
+                    class="thumbnail-image"
+                    (error)="onThumbnailError()"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Animation Parameters Section -->
+          <div class="form-section">
+            <h3>{{ 'ANIMATION_GENERATION.ANIMATION_PARAMETERS' | translate }}</h3>
+
+            <div class="form-group">
+              <label for="prompt">{{ 'ANIMATION_GENERATION.ANIMATION_PROMPT' | translate }}</label>
+              <textarea
+                id="prompt"
+                [(ngModel)]="prompt"
+                (input)="onFormChange()"
+                [placeholder]="'ANIMATION_GENERATION.ANIMATION_PROMPT_PLACEHOLDER' | translate"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="negativePrompt">{{
+                'ANIMATION_GENERATION.NEGATIVE_PROMPT' | translate
+              }}</label>
+              <input
+                type="text"
+                id="negativePrompt"
+                [(ngModel)]="negativePrompt"
+                (input)="onFormChange()"
+                [placeholder]="'ANIMATION_GENERATION.NEGATIVE_PROMPT_PLACEHOLDER' | translate"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="resolution">{{ 'ANIMATION_GENERATION.RESOLUTION' | translate }}</label>
+              <select id="resolution" [(ngModel)]="resolution" (change)="onFormChange()">
+                <option value="480P">
+                  {{ 'ANIMATION_GENERATION.RESOLUTION_480P' | translate }}
+                </option>
+                <option value="720p">
+                  {{ 'ANIMATION_GENERATION.RESOLUTION_720P' | translate }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="form-actions">
+            <button
+              (click)="generateAnimation()"
+              [disabled]="isGenerating() || !imageUrl || !prompt"
+              class="generate-btn"
+            >
+              {{
+                isGenerating()
+                  ? ('ANIMATION_GENERATION.GENERATING' | translate)
+                  : ('ANIMATION_GENERATION.GENERATE_ANIMATION' | translate)
+              }}
+            </button>
+            <button (click)="reset()" [disabled]="isGenerating()" class="clear-btn">
+              {{ 'ANIMATION_GENERATION.RESET' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Preview Box -->
+    <div class="right-column">
+      <!-- Video Preview Box -->
+      <div class="preview-box">
+        <h4>{{ 'ANIMATION_GENERATION.ANIMATION_PREVIEW' | translate }}</h4>
+
+        <!-- Loading State -->
+        <div class="preview-loading" *ngIf="isGenerating()">
+          <div class="loading-spinner"></div>
+          <p>{{ 'ANIMATION_GENERATION.GENERATING_ANIMATION' | translate }}</p>
+          <small>{{ 'ANIMATION_GENERATION.GENERATING_MESSAGE' | translate }}</small>
+        </div>
+
+        <!-- Placeholder (only show when not loading and no result and no error) -->
+        <div class="preview-placeholder" *ngIf="!isGenerating() && !result() && !errorMessage()">
+          <div class="preview-icon">🎬</div>
+          <p>{{ 'ANIMATION_GENERATION.PREVIEW_PLACEHOLDER' | translate }}</p>
+          <small>{{ 'ANIMATION_GENERATION.PREVIEW_MESSAGE' | translate }}</small>
+        </div>
+
+        <!-- Video Result Section (only show when not loading and has result or error) -->
+        <div *ngIf="!isGenerating() && (result() || errorMessage())" class="result-section">
+          <div *ngIf="errorMessage()" class="error-card">
+            <div class="error-icon">❌</div>
+            <div class="error-content">
+              <h4>{{ 'ANIMATION_GENERATION.GENERATION_FAILED' | translate }}</h4>
+              <p>{{ errorMessage() }}</p>
+            </div>
+          </div>
+
+          <div *ngIf="!errorMessage() && result()" class="success-card">
+            <div class="result-header">
+              <div class="result-info">
+                <p>
+                  <strong>{{ 'ANIMATION_GENERATION.TASK_ID' | translate }}:</strong>
+                  {{ result()?.task_id || ('ANIMATION_GENERATION.AUTO_GENERATED' | translate) }}
+                </p>
+                <p>
+                  <strong>{{ 'ANIMATION_GENERATION.RESOLUTION' | translate }}:</strong>
+                  {{ resolution }}
+                </p>
+              </div>
+              <div class="result-actions">
+                <a [href]="result()?.url" download class="download-btn">
+                  {{ 'ANIMATION_GENERATION.DOWNLOAD' | translate }}
+                </a>
+                <button (click)="navigateToSpriteSheet()" class="sprite-sheet-btn">
+                  {{ 'ANIMATION_GENERATION.TO_SPRITE_SHEET' | translate }}
+                </button>
+              </div>
+            </div>
+
+            <div class="video-display">
+              <video
+                [src]="result()?.url"
+                controls
+                class="generated-video"
+                preload="metadata"
+              ></video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

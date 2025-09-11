@@ -1,0 +1,193 @@
+<div class="settings-container">
+  <h2>{{ 'SETTINGS.TITLE' | translate }}</h2>
+
+  <!-- Language Selection -->
+  <div class="setting-group">
+    <div class="section-header">
+      <label for="language">{{ 'SETTINGS.LANGUAGE' | translate }}</label>
+    </div>
+    <div class="language-selector">
+      <select
+        id="language"
+        [(ngModel)]="selectedLanguage"
+        (change)="onLanguageChange($any($event.target).value)"
+        class="language-select"
+      >
+        <option *ngFor="let lang of getAvailableLanguages()" [value]="lang.code">
+          {{ lang.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="setting-group">
+    <div class="section-header">
+      <div class="label-group">
+        <label for="doubaoApiKey">{{ 'SETTINGS.DOUBAO_API_KEY' | translate }}</label>
+        <span class="recommended-badge">{{ 'SETTINGS.RECOMMENDED' | translate }}</span>
+      </div>
+      <label class="checkbox-label">
+        <input
+          type="checkbox"
+          [checked]="activeApiKey() === 'doubao'"
+          (change)="setActiveApiKey('doubao')"
+          class="checkbox-input"
+        />
+        <span class="checkmark"></span>
+        {{ 'SETTINGS.ACTIVATE' | translate }}
+      </label>
+    </div>
+    <div class="api-key-input-group">
+      <input
+        id="doubaoApiKey"
+        [type]="showDoubaoApiKey() ? 'text' : 'password'"
+        [(ngModel)]="doubaoApiKeyInput"
+        (input)="onDoubaoApiKeyInputChange($any($event.target).value)"
+        [placeholder]="'SETTINGS.ENTER_DOUBAO_API_KEY' | translate"
+        class="api-key-input"
+      />
+      <button
+        type="button"
+        (click)="toggleDoubaoApiKeyVisibility()"
+        class="toggle-visibility-btn"
+        [title]="
+          (showDoubaoApiKey() ? 'SETTINGS.HIDE_API_KEY' : 'SETTINGS.SHOW_API_KEY') | translate
+        "
+      >
+        {{ showDoubaoApiKey() ? '🙈' : '👁️' }}
+      </button>
+    </div>
+    <div class="button-group">
+      <button
+        type="button"
+        (click)="saveDoubaoApiKey()"
+        class="save-btn"
+        [disabled]="!doubaoApiKeyInput()"
+      >
+        {{ 'SETTINGS.SAVE' | translate }}
+      </button>
+      <button
+        type="button"
+        (click)="clearDoubaoApiKey()"
+        class="clear-btn"
+        [disabled]="!settingsService.hasDoubaoApiKey()"
+      >
+        {{ 'SETTINGS.CLEAR' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="setting-group">
+    <div class="section-header">
+      <label for="apiKey">{{ 'SETTINGS.TONGYI_API_KEY' | translate }}</label>
+      <label class="checkbox-label">
+        <input
+          type="checkbox"
+          [checked]="activeApiKey() === 'tongyi'"
+          (change)="setActiveApiKey('tongyi')"
+          class="checkbox-input"
+        />
+        <span class="checkmark"></span>
+        {{ 'SETTINGS.ACTIVATE' | translate }}
+      </label>
+    </div>
+    <div class="api-key-input-group">
+      <input
+        id="apiKey"
+        [type]="showTongyiApiKey() ? 'text' : 'password'"
+        [(ngModel)]="tongyiApiKeyInput"
+        (input)="onApiKeyInputChange($any($event.target).value)"
+        [placeholder]="'SETTINGS.ENTER_API_KEY' | translate"
+        class="api-key-input"
+      />
+      <button
+        type="button"
+        (click)="toggleTongyiApiKeyVisibility()"
+        class="toggle-visibility-btn"
+        [title]="
+          (showTongyiApiKey() ? 'SETTINGS.HIDE_API_KEY' : 'SETTINGS.SHOW_API_KEY') | translate
+        "
+      >
+        {{ showTongyiApiKey() ? '🙈' : '👁️' }}
+      </button>
+    </div>
+    <div class="button-group">
+      <button
+        type="button"
+        (click)="saveApiKey()"
+        class="save-btn"
+        [disabled]="!tongyiApiKeyInput()"
+      >
+        {{ 'SETTINGS.SAVE' | translate }}
+      </button>
+      <button
+        type="button"
+        (click)="clearTongyiApiKey()"
+        class="clear-btn"
+        [disabled]="!settingsService.hasTongyiApiKey()"
+      >
+        {{ 'SETTINGS.CLEAR' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Status Information -->
+  <div
+    class="status-section"
+    *ngIf="
+      settingsService.hasAnyApiKey() &&
+      !(
+        (activeApiKey() === 'tongyi' && !settingsService.hasTongyiApiKey()) ||
+        (activeApiKey() === 'doubao' && !settingsService.hasDoubaoApiKey())
+      )
+    "
+  >
+    <div class="status-info">
+      <span class="status-icon">✅</span>
+      <span class="status-text">
+        {{ 'SETTINGS.API_KEYS_CONFIGURED' | translate }}
+        <span *ngIf="settingsService.hasTongyiApiKey() && settingsService.hasDoubaoApiKey()">
+          ({{ 'SETTINGS.ACTIVE' | translate }}:
+          {{
+            activeApiKey() === 'tongyi'
+              ? ('SETTINGS.TONGYI' | translate)
+              : ('SETTINGS.DOUBAO' | translate)
+          }})
+        </span>
+        <span *ngIf="settingsService.hasTongyiApiKey() && !settingsService.hasDoubaoApiKey()">
+          ({{ 'SETTINGS.ACTIVE' | translate }}: {{ 'SETTINGS.TONGYI' | translate }})
+        </span>
+        <span *ngIf="!settingsService.hasTongyiApiKey() && settingsService.hasDoubaoApiKey()">
+          ({{ 'SETTINGS.ACTIVE' | translate }}: {{ 'SETTINGS.DOUBAO' | translate }})
+        </span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Warning for active model without API key -->
+  <div
+    class="status-section warning"
+    *ngIf="
+      (activeApiKey() === 'tongyi' && !settingsService.hasTongyiApiKey()) ||
+      (activeApiKey() === 'doubao' && !settingsService.hasDoubaoApiKey())
+    "
+  >
+    <div class="status-info">
+      <span class="status-icon">⚠️</span>
+      <span class="status-text">
+        {{
+          activeApiKey() === 'tongyi'
+            ? ('SETTINGS.TONGYI_ACTIVE_NO_KEY' | translate)
+            : ('SETTINGS.DOUBAO_ACTIVE_NO_KEY' | translate)
+        }}
+      </span>
+    </div>
+  </div>
+
+  <div class="status-section warning" *ngIf="!settingsService.hasAnyApiKey()">
+    <div class="status-info">
+      <span class="status-icon">⚠️</span>
+      <span class="status-text">{{ 'SETTINGS.NO_API_KEYS' | translate }}</span>
+    </div>
+  </div>
+</div>

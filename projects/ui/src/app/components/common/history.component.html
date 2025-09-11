@@ -1,0 +1,75 @@
+<div class="history-container">
+  <h1>{{ 'HISTORY.TITLE' | translate }}</h1>
+
+  <div class="history-controls" *ngIf="historyItems.length > 0">
+    <button (click)="clearHistory()" class="clear-btn">
+      {{ 'HISTORY.CLEAR_ALL' | translate }}
+    </button>
+  </div>
+
+  <div class="content">
+    <h2>{{ 'HISTORY.RECENT_GENERATIONS' | translate }}</h2>
+
+    <div *ngIf="historyItems.length === 0" class="empty-state">
+      <div class="empty-icon">📚</div>
+      <p>{{ 'HISTORY.EMPTY_STATE' | translate }}</p>
+    </div>
+
+    <div class="history-list" *ngIf="historyItems.length > 0">
+      <div class="history-item" *ngFor="let item of historyItems">
+        <div class="item-header">
+          <span class="item-type">{{ item.type }}</span>
+          <span class="item-date">{{ formatDate(item.timestamp) }}</span>
+          <div class="item-actions">
+            <button
+              (click)="copyUrl(getCopyUrl(item), $event)"
+              class="copy-btn"
+              title="Copy URL"
+              *ngIf="getCopyUrl(item)"
+            >
+              📋
+            </button>
+            <button
+              (click)="removeHistoryItem(item.id)"
+              class="remove-btn"
+              title="{{ 'HISTORY.REMOVE' | translate }}"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+
+        <div class="item-content">
+          <div class="item-image" *ngIf="getPreviewUrl(item)">
+            <img [src]="getPreviewUrl(item)" [alt]="item.prompt" class="history-image" />
+          </div>
+
+          <div class="item-details">
+            <p class="item-prompt">{{ item.prompt }}</p>
+            <div class="item-meta" *ngIf="item.size || item.seed || item.resolution">
+              <span *ngIf="item.size" class="meta-item"
+                >{{ 'HISTORY.SIZE' | translate }}: {{ item.size }}</span
+              >
+              <span *ngIf="item.seed" class="meta-item"
+                >{{ 'HISTORY.SEED' | translate }}: {{ item.seed }}</span
+              >
+              <span *ngIf="item.resolution" class="meta-item"
+                >{{ 'HISTORY.RESOLUTION' | translate }}: {{ item.resolution }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Global Alert Modal -->
+<app-alert-modal
+  *ngIf="alertService.showAlert()"
+  [config]="alertService.alertConfig()!"
+  (confirm)="alertService.onConfirm()"
+  (cancel)="alertService.onCancel()"
+  (close)="alertService.onClose()"
+>
+</app-alert-modal>

@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'bitmapsong';
+  src: url('./assets/fonts/bitmapsong.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --current-font: 'bitmapsong', monospace;
+
+  /* Base Font Sizes */
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 22px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 32px;
+  --font-size-error: 16px;
+
+  /* Heading Sizes */
+  --font-size-h1: 24px;
+  --font-size-h2: 22px;
+
+  /* Hero Section Sizes */
+  --font-size-hero-title: 72px;
+  --font-size-hero-subtitle: 36px;
+  --font-size-hero-description: 22px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--current-font);
+  background: linear-gradient(45deg, #1a1a2e, #1e2a3a);
+  color: #e5e7eb;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  font-size: var(--font-size-md);
+}
+
+* {
+  font-family: var(--current-font);
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+  border: 1px solid #637ab9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #a8fbd3, #637ab9);
+  border: 1px solid #a8fbd3;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #637ab9, #a8fbd3);
+}

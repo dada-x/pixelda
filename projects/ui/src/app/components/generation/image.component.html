@@ -1,0 +1,234 @@
+<div class="image-container">
+  <h1>{{ 'IMAGE_GENERATION.TITLE' | translate }}</h1>
+
+  <div class="layout-container">
+    <!-- Left Column: User Input Form -->
+    <div class="left-column">
+      <div class="generation-form">
+        <h4>{{ 'IMAGE_GENERATION.GENERATION_SETTINGS' | translate }}</h4>
+        <div class="form-content">
+          <!-- Character Description Section -->
+          <div class="form-section">
+            <h3>{{ 'IMAGE_GENERATION.CHARACTER_TEMPLATE' | translate }}</h3>
+
+            <div class="form-group">
+              <label for="characterDescription">{{
+                'IMAGE_GENERATION.CHARACTER_DESCRIPTION' | translate
+              }}</label>
+              <textarea
+                id="characterDescription"
+                [(ngModel)]="characterDescription"
+                (input)="onFormChange()"
+                [placeholder]="'IMAGE_GENERATION.CHARACTER_DESCRIPTION_PLACEHOLDER' | translate"
+                rows="2"
+              ></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="faceWear">{{ 'IMAGE_GENERATION.FACE_WEAR' | translate }}</label>
+                <input
+                  type="text"
+                  id="faceWear"
+                  [(ngModel)]="faceWear"
+                  (input)="onFormChange()"
+                  [placeholder]="'IMAGE_GENERATION.FACE_WEAR_PLACEHOLDER' | translate"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="bodyWear">{{ 'IMAGE_GENERATION.BODY_WEAR' | translate }}</label>
+                <input
+                  type="text"
+                  id="bodyWear"
+                  [(ngModel)]="bodyWear"
+                  (input)="onFormChange()"
+                  [placeholder]="'IMAGE_GENERATION.BODY_WEAR_PLACEHOLDER' | translate"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="footWear">{{ 'IMAGE_GENERATION.FOOT_WEAR' | translate }}</label>
+                <input
+                  type="text"
+                  id="footWear"
+                  [(ngModel)]="footWear"
+                  (input)="onFormChange()"
+                  [placeholder]="'IMAGE_GENERATION.FOOT_WEAR_PLACEHOLDER' | translate"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="additionalDescription">{{
+                'IMAGE_GENERATION.ADDITIONAL_DESCRIPTION' | translate
+              }}</label>
+              <textarea
+                id="additionalDescription"
+                [(ngModel)]="additionalDescription"
+                (input)="onFormChange()"
+                [placeholder]="'IMAGE_GENERATION.ADDITIONAL_DESCRIPTION_PLACEHOLDER' | translate"
+                rows="2"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Generation Parameters Section -->
+          <div class="form-section">
+            <h3>{{ 'IMAGE_GENERATION.GENERATION_PARAMETERS' | translate }}</h3>
+
+            <div class="form-group">
+              <label for="negativePrompt">{{
+                'IMAGE_GENERATION.NEGATIVE_PROMPT' | translate
+              }}</label>
+              <input
+                type="text"
+                id="negativePrompt"
+                [(ngModel)]="negativePrompt"
+                (input)="onFormChange()"
+                [placeholder]="'IMAGE_GENERATION.NEGATIVE_PROMPT_PLACEHOLDER' | translate"
+              />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="size">{{ 'IMAGE_GENERATION.RESOLUTION' | translate }}</label>
+                <select id="size" [(ngModel)]="size" (change)="onFormChange()">
+                  <option value="1024*1024">
+                    {{ 'IMAGE_GENERATION.RESOLUTION_1024' | translate }}
+                  </option>
+                  <option value="1280*720">
+                    {{ 'IMAGE_GENERATION.RESOLUTION_1280' | translate }}
+                  </option>
+                  <option value="720*1280">
+                    {{ 'IMAGE_GENERATION.RESOLUTION_720' | translate }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="seed">{{ 'IMAGE_GENERATION.SEED' | translate }}</label>
+                <input
+                  type="number"
+                  id="seed"
+                  [(ngModel)]="seed"
+                  (input)="onFormChange()"
+                  [placeholder]="'IMAGE_GENERATION.SEED_PLACEHOLDER' | translate"
+                  min="1"
+                  max="999999999"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="form-actions">
+            <button (click)="generateImage()" [disabled]="loading()" class="generate-btn">
+              {{
+                loading()
+                  ? ('IMAGE_GENERATION.GENERATING' | translate)
+                  : ('IMAGE_GENERATION.GENERATE_IMAGE' | translate)
+              }}
+            </button>
+            <button (click)="clearForm()" [disabled]="loading()" class="clear-btn">
+              {{ 'IMAGE_GENERATION.RESET' | translate }}
+            </button>
+          </div>
+
+          <!-- Final Prompt Editor -->
+          <div class="prompt-preview">
+            <h4>{{ 'IMAGE_GENERATION.FINAL_PROMPT' | translate }}</h4>
+            <textarea
+              class="final-prompt-editor"
+              [(ngModel)]="finalPrompt"
+              (input)="onFinalPromptChange()"
+              [placeholder]="'IMAGE_GENERATION.FINAL_PROMPT_PLACEHOLDER' | translate"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Preview Box -->
+    <div class="right-column">
+      <!-- Preview Box (Always Visible) -->
+      <div class="preview-box">
+        <h4>{{ 'IMAGE_GENERATION.PREVIEW' | translate }}</h4>
+
+        <!-- Loading State -->
+        <div class="preview-loading" *ngIf="loading()">
+          <div class="loading-spinner"></div>
+          <p>{{ 'IMAGE_GENERATION.GENERATING_IMAGE' | translate }}</p>
+          <small>{{ 'IMAGE_GENERATION.GENERATING_MESSAGE' | translate }}</small>
+        </div>
+
+        <!-- Placeholder (only show when not loading and no result) -->
+        <div class="preview-placeholder" *ngIf="!loading() && !result()">
+          <div class="preview-icon">🖼️</div>
+          <p>{{ 'IMAGE_GENERATION.PREVIEW_PLACEHOLDER' | translate }}</p>
+          <small>{{ 'IMAGE_GENERATION.PREVIEW_MESSAGE' | translate }}</small>
+        </div>
+
+        <!-- Result Section (only show when not loading and has result) -->
+        <div *ngIf="!loading() && result()" class="result-section">
+          <h3>{{ 'IMAGE_GENERATION.GENERATED_IMAGE' | translate }}</h3>
+
+          <div *ngIf="result()?.error_info" class="error-card">
+            <div class="error-icon">❌</div>
+            <div class="error-content">
+              <h4>{{ 'IMAGE_GENERATION.GENERATION_FAILED' | translate }}</h4>
+              <p>{{ result()?.error_info }}</p>
+            </div>
+          </div>
+
+          <div *ngIf="!result()?.error_info" class="success-card">
+            <div class="result-header">
+              <div class="result-info">
+                <p>
+                  <strong>{{ 'IMAGE_GENERATION.TASK_ID' | translate }}:</strong>
+                  {{ result()?.task_id || ('IMAGE_GENERATION.AUTO_GENERATED' | translate) }}
+                </p>
+                <p>
+                  <strong>{{ 'IMAGE_GENERATION.RESOLUTION' | translate }}:</strong> {{ size }}
+                </p>
+                <p>
+                  <strong>{{ 'IMAGE_GENERATION.SEED' | translate }}:</strong>
+                  {{ seed || ('IMAGE_GENERATION.AUTO_GENERATED' | translate) }}
+                </p>
+              </div>
+              <div class="result-actions">
+                <button (click)="regenerateImage()" [disabled]="loading()" class="regenerate-btn">
+                  {{ 'IMAGE_GENERATION.REGENERATE' | translate }}
+                </button>
+                <a *ngIf="result()?.url" [href]="result()?.url" download class="download-btn">
+                  {{ 'IMAGE_GENERATION.DOWNLOAD' | translate }}
+                </a>
+                <button
+                  (click)="navigateToAnimation()"
+                  [disabled]="loading() || !result()?.url"
+                  class="animation-btn"
+                >
+                  {{ 'IMAGE_GENERATION.TO_ANIMATION' | translate }}
+                </button>
+              </div>
+            </div>
+
+            <div class="image-display" *ngIf="result()?.url">
+              <img
+                [src]="result()?.url"
+                alt="Generated Image"
+                class="generated-image"
+                (load)="onImageLoad()"
+                (error)="onImageError()"
+              />
+              <div *ngIf="imageLoading()" class="image-loading">
+                <div class="loading-spinner"></div>
+                <p>{{ 'IMAGE_GENERATION.LOADING_IMAGE' | translate }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

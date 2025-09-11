@@ -1,0 +1,340 @@
+<div class="sprite-sheet-container">
+  <h1>{{ 'SPRITE_SHEET.TITLE' | translate }}</h1>
+
+  <div class="layout-container">
+    <!-- Left Column: User Input Form -->
+    <div class="left-column">
+      <div class="generation-form">
+        <h4>{{ 'SPRITE_SHEET.FRAME_SPLITTING_SETTINGS' | translate }}</h4>
+        <div class="form-content">
+          <!-- Video URL Section -->
+          <div class="form-section">
+            <h3>{{ 'SPRITE_SHEET.VIDEO_SOURCE' | translate }}</h3>
+
+            <div class="form-group">
+              <label for="videoUrl">{{ 'SPRITE_SHEET.VIDEO_URL' | translate }}</label>
+              <input
+                id="videoUrl"
+                type="url"
+                [(ngModel)]="videoUrl"
+                (input)="onFormChange()"
+                [placeholder]="'SPRITE_SHEET.VIDEO_URL_PLACEHOLDER' | translate"
+              />
+            </div>
+          </div>
+
+          <!-- Frame Splitting Section -->
+          <div class="form-section">
+            <h3>{{ 'SPRITE_SHEET.SPLITTING_PARAMETERS' | translate }}</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fromTime">{{ 'SPRITE_SHEET.FROM_TIME' | translate }}</label>
+                <input
+                  id="fromTime"
+                  type="number"
+                  [(ngModel)]="fromTime"
+                  (input)="onFromTimeChange()"
+                  min="0"
+                  step="0.1"
+                  [placeholder]="'0.0'"
+                  [class.error]="fromTimeError"
+                />
+                <div *ngIf="fromTimeError" class="input-error">{{ fromTimeError | translate }}</div>
+              </div>
+
+              <div class="form-group">
+                <label for="toTime">{{ 'SPRITE_SHEET.TO_TIME' | translate }}</label>
+                <input
+                  id="toTime"
+                  type="number"
+                  [(ngModel)]="toTime"
+                  (input)="onToTimeChange()"
+                  min="0"
+                  step="0.1"
+                  [placeholder]="'10.0'"
+                  [class.error]="toTimeError"
+                />
+                <div *ngIf="toTimeError" class="input-error">{{ toTimeError | translate }}</div>
+              </div>
+
+              <div class="form-group">
+                <label for="count">{{ 'SPRITE_SHEET.FRAME_COUNT' | translate }}</label>
+                <input
+                  id="count"
+                  type="number"
+                  [(ngModel)]="splitCount"
+                  (input)="onFormChange()"
+                  min="1"
+                  max="100"
+                  [placeholder]="'10'"
+                />
+              </div>
+            </div>
+
+            <div class="form-info">
+              <small>
+                <strong>{{ 'SPRITE_SHEET.FROM_TIME_LABEL' | translate }}</strong>
+                {{ 'SPRITE_SHEET.FROM_TIME_LABEL_DESC' | translate }}<br />
+                <strong>{{ 'SPRITE_SHEET.TO_TIME_LABEL' | translate }}</strong>
+                {{ 'SPRITE_SHEET.TO_TIME_LABEL_DESC' | translate }}<br />
+                <strong>{{ 'SPRITE_SHEET.FRAME_COUNT_LABEL' | translate }}</strong>
+                {{ 'SPRITE_SHEET.FRAME_COUNT_LABEL_DESC' | translate }}
+              </small>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="form-actions">
+            <button
+              (click)="splitVideoToFrames()"
+              [disabled]="isSplitting() || !videoUrl"
+              class="generate-btn"
+            >
+              {{
+                isSplitting()
+                  ? ('SPRITE_SHEET.SPLITTING_IN_PROGRESS' | translate)
+                  : ('SPRITE_SHEET.SPLIT_VIDEO' | translate)
+              }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Preview Box -->
+    <div class="right-column">
+      <!-- Frames Preview Box -->
+      <div class="frames-preview-box">
+        <h4>{{ 'SPRITE_SHEET.EXTRACTED_FRAMES' | translate }}</h4>
+
+        <!-- Loading State -->
+        <div class="preview-loading" *ngIf="isSplitting()">
+          <div class="loading-spinner"></div>
+          <p>{{ 'SPRITE_SHEET.SPLITTING_VIDEO' | translate }}</p>
+          <small>{{ 'SPRITE_SHEET.SPLITTING_MESSAGE' | translate }}</small>
+        </div>
+
+        <!-- Placeholder (only show when not loading and no frames and no error) -->
+        <div
+          class="preview-placeholder"
+          *ngIf="!isSplitting() && generatedFrames().length === 0 && !errorMessage()"
+        >
+          <div class="preview-icon">🎬</div>
+          <p>{{ 'SPRITE_SHEET.FRAMES_PLACEHOLDER' | translate }}</p>
+          <small>{{ 'SPRITE_SHEET.FRAMES_PLACEHOLDER_DESC' | translate }}</small>
+        </div>
+
+        <!-- Frames Grid (only show when has frames or error) -->
+        <div
+          *ngIf="!isSplitting() && (generatedFrames().length > 0 || errorMessage())"
+          class="frames-result"
+        >
+          <div *ngIf="errorMessage()" class="error-card">
+            <div class="error-icon">❌</div>
+            <div class="error-content">
+              <h4>{{ 'SPRITE_SHEET.GENERATION_FAILED' | translate }}</h4>
+              <p>{{ errorMessage() }}</p>
+            </div>
+          </div>
+
+          <div *ngIf="!errorMessage()" class="success-card">
+            <div class="result-header">
+              <div class="result-info">
+                <p>
+                  <strong>{{ 'SPRITE_SHEET.FRAMES_EXTRACTED' | translate }}</strong>
+                  {{ generatedFrames().length }}
+                </p>
+                <p>
+                  <strong>{{ 'SPRITE_SHEET.TIME_RANGE' | translate }}</strong> {{ fromTime }}s -
+                  {{ toTime }}s
+                </p>
+                <p>
+                  <strong>{{ 'SPRITE_SHEET.SELECTED_COUNT' | translate }}</strong>
+                  {{ selectedFramesCount }} {{ 'SPRITE_SHEET.FRAMES' | translate }}
+                </p>
+              </div>
+              <div class="result-actions">
+                <button (click)="selectAllFrames()" class="select-btn">
+                  {{ 'SPRITE_SHEET.SELECT_ALL' | translate }}
+                </button>
+                <button (click)="deselectAllFrames()" class="select-btn">
+                  {{ 'SPRITE_SHEET.DESELECT_ALL' | translate }}
+                </button>
+                <button
+                  (click)="openPreviewModal()"
+                  [disabled]="selectedFramesCount === 0"
+                  class="preview-btn"
+                >
+                  {{ 'SPRITE_SHEET.PREVIEW_ANIMATION' | translate }}
+                </button>
+                <button
+                  (click)="downloadSpriteSheet()"
+                  [disabled]="selectedFramesCount === 0"
+                  class="download-btn"
+                >
+                  {{ 'SPRITE_SHEET.DOWNLOAD_SELECTED' | translate }}
+                </button>
+              </div>
+            </div>
+
+            <div class="frames-grid">
+              <div
+                *ngFor="let frame of generatedFrames(); let i = index"
+                class="frame-item"
+                [class.selected]="isFrameSelected(i)"
+                (click)="toggleFrameSelection(i)"
+              >
+                <div class="frame-checkbox" (click)="$event.stopPropagation()">
+                  <input
+                    type="checkbox"
+                    [id]="'frame-' + i"
+                    [checked]="isFrameSelected(i)"
+                    (change)="toggleFrameSelection(i)"
+                  />
+                  <label [for]="'frame-' + i" class="checkbox-label"></label>
+                </div>
+                <img
+                  [src]="frame"
+                  [alt]="'SPRITE_SHEET.FRAME' | translate : { number: i + 1 }"
+                  class="frame-image"
+                />
+                <div class="frame-label">{{ 'SPRITE_SHEET.FRAME' | translate }} {{ i + 1 }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview Modal -->
+  <div *ngIf="showPreviewModal()" class="preview-modal-overlay" (click)="closePreviewModal()">
+    <div class="preview-modal" (click)="$event.stopPropagation()">
+      <div class="preview-modal-header">
+        <h3>{{ 'SPRITE_SHEET.ANIMATION_PREVIEW' | translate }}</h3>
+        <button (click)="closePreviewModal()" class="close-btn">✕</button>
+      </div>
+
+      <div class="preview-modal-content">
+        <div class="preview-controls">
+          <div class="fps-controls">
+            <label>{{ 'SPRITE_SHEET.FPS' | translate }}</label>
+            <button
+              (click)="setAnimationFps(12)"
+              [class.active]="animationFps === 12"
+              class="fps-btn"
+            >
+              12
+            </button>
+            <button
+              (click)="setAnimationFps(24)"
+              [class.active]="animationFps === 24"
+              class="fps-btn"
+            >
+              24
+            </button>
+          </div>
+
+          <button (click)="toggleAnimation()" class="play-btn">
+            {{
+              isAnimating() ? ('SPRITE_SHEET.PAUSE' | translate) : ('SPRITE_SHEET.PLAY' | translate)
+            }}
+          </button>
+        </div>
+
+        <div class="preview-display">
+          <div class="preview-frame-container">
+            <img
+              *ngIf="getCurrentAnimationFrame()"
+              [src]="getCurrentAnimationFrame()"
+              alt="{{ 'SPRITE_SHEET.ANIMATION_PREVIEW_ALT' | translate }}"
+              class="preview-frame"
+            />
+            <div *ngIf="!getCurrentAnimationFrame()" class="preview-placeholder">
+              <div class="preview-icon">🎬</div>
+              <p>{{ 'SPRITE_SHEET.NO_FRAMES_PREVIEW' | translate }}</p>
+              <small>{{ 'SPRITE_SHEET.SELECT_FRAMES_PREVIEW' | translate }}</small>
+            </div>
+          </div>
+          <div class="preview-info">
+            <p>
+              {{
+                'SPRITE_SHEET.FRAME_INFO'
+                  | translate
+                    : { currentFrame: currentFrameIndex() + 1, totalFrames: selectedFramesCount }
+              }}
+            </p>
+            <p>{{ 'SPRITE_SHEET.FPS_INFO' | translate : { fps: animationFps } }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download Modal -->
+  <div *ngIf="showDownloadModal()" class="download-modal-overlay" (click)="cancelDownload()">
+    <div class="download-modal" (click)="$event.stopPropagation()">
+      <div class="download-modal-header">
+        <h3>{{ 'SPRITE_SHEET.DOWNLOAD_SELECTED_FRAMES' | translate }}</h3>
+        <button (click)="cancelDownload()" class="close-btn">✕</button>
+      </div>
+
+      <div class="download-modal-content">
+        <div class="form-group">
+          <label for="downloadName">{{ 'SPRITE_SHEET.SPRITE_SHEET_NAME' | translate }}</label>
+          <input
+            id="downloadName"
+            type="text"
+            [(ngModel)]="downloadName"
+            [placeholder]="'SPRITE_SHEET.SPRITE_SHEET_NAME_PLACEHOLDER' | translate"
+            (keyup.enter)="confirmDownload()"
+          />
+        </div>
+
+        <div class="download-info">
+          <p>
+            <strong>{{ 'SPRITE_SHEET.FRAMES_TO_DOWNLOAD' | translate }}</strong>
+            {{ selectedFramesCount }}
+          </p>
+          <p>
+            <strong>{{ 'SPRITE_SHEET.FORMAT' | translate }}</strong>
+            {{ 'SPRITE_SHEET.ZIP_ARCHIVE_FORMAT' | translate }}
+          </p>
+        </div>
+
+        <!-- Background Removal Option -->
+        <div class="option-section">
+          <h4>{{ 'SPRITE_SHEET.PROCESSING_OPTIONS' | translate }}</h4>
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="removeBackground" id="removeBackground" />
+            <span class="checkmark"></span>
+            <div class="option-content">
+              <div class="option-title">{{ 'SPRITE_SHEET.REMOVE_BACKGROUND' | translate }}</div>
+              <div class="option-description">
+                {{ 'SPRITE_SHEET.REMOVE_BACKGROUND_DESC' | translate }}
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="download-modal-actions">
+        <button (click)="cancelDownload()" class="cancel-btn">
+          {{ 'SPRITE_SHEET.CANCEL' | translate }}
+        </button>
+        <button
+          (click)="confirmDownload()"
+          [disabled]="!downloadName.trim() || isDownloading()"
+          class="confirm-btn"
+        >
+          {{
+            isDownloading()
+              ? ('SPRITE_SHEET.DOWNLOADING' | translate)
+              : ('SPRITE_SHEET.DOWNLOAD' | translate)
+          }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

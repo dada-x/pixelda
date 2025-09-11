@@ -1,0 +1,6 @@
+configs/secrets.json
+__pycache__/
+cache/
+logs/
+.vscode/
+projects/ui/package-lock.json

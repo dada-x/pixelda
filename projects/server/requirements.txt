@@ -1,0 +1,9 @@
+fastapi==0.116.1
+uvicorn[standard]==0.35.0
+pydantic==2.11.9
+dashscope==1.24.4
+python-multipart==0.0.20
+opencv-python==4.12.0.88
+rembg==2.0.67
+pillow==11.3.0
+volcenginesdkarkruntime==0.1.0
