@@ -1,7 +1,6 @@
 <div class="settings-container">
   <h2>{{ 'SETTINGS.TITLE' | translate }}</h2>
 
-  <!-- Language Selection -->
   <div class="setting-group">
     <div class="section-header">
       <label for="language">{{ 'SETTINGS.LANGUAGE' | translate }}</label>
@@ -131,7 +130,6 @@
     </div>
   </div>
 
-  <!-- Status Information -->
   <div
     class="status-section"
     *ngIf="
@@ -164,7 +162,6 @@
     </div>
   </div>
 
-  <!-- Warning for active model without API key -->
   <div
     class="status-section warning"
     *ngIf="

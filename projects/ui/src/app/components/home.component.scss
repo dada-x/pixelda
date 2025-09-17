@@ -30,9 +30,6 @@
   height: auto;
   display: block;
   margin: 0 auto 40px;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
   filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
   transition: transform 0.3s ease;
 }
@@ -43,6 +40,7 @@
 
 .hero-title {
   margin-bottom: 24px;
+
   .pixel-text {
     font-size: var(--font-size-hero-title);
     color: #a8fbd3;

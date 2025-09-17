@@ -2,12 +2,10 @@
   <h1>{{ 'SPRITE_SHEET.TITLE' | translate }}</h1>
 
   <div class="layout-container">
-    <!-- Left Column: User Input Form -->
     <div class="left-column">
       <div class="generation-form">
         <h4>{{ 'SPRITE_SHEET.FRAME_SPLITTING_SETTINGS' | translate }}</h4>
         <div class="form-content">
-          <!-- Video URL Section -->
           <div class="form-section">
             <h3>{{ 'SPRITE_SHEET.VIDEO_SOURCE' | translate }}</h3>
 
@@ -23,7 +21,6 @@
             </div>
           </div>
 
-          <!-- Frame Splitting Section -->
           <div class="form-section">
             <h3>{{ 'SPRITE_SHEET.SPLITTING_PARAMETERS' | translate }}</h3>
 
@@ -84,7 +81,6 @@
             </div>
           </div>
 
-          <!-- Action Buttons -->
           <div class="form-actions">
             <button
               (click)="splitVideoToFrames()"
@@ -102,20 +98,16 @@
       </div>
     </div>
 
-    <!-- Right Column: Preview Box -->
     <div class="right-column">
-      <!-- Frames Preview Box -->
       <div class="frames-preview-box">
         <h4>{{ 'SPRITE_SHEET.EXTRACTED_FRAMES' | translate }}</h4>
 
-        <!-- Loading State -->
         <div class="preview-loading" *ngIf="isSplitting()">
           <div class="loading-spinner"></div>
           <p>{{ 'SPRITE_SHEET.SPLITTING_VIDEO' | translate }}</p>
           <small>{{ 'SPRITE_SHEET.SPLITTING_MESSAGE' | translate }}</small>
         </div>
 
-        <!-- Placeholder (only show when not loading and no frames and no error) -->
         <div
           class="preview-placeholder"
           *ngIf="!isSplitting() && generatedFrames().length === 0 && !errorMessage()"
@@ -125,7 +117,6 @@
           <small>{{ 'SPRITE_SHEET.FRAMES_PLACEHOLDER_DESC' | translate }}</small>
         </div>
 
-        <!-- Frames Grid (only show when has frames or error) -->
         <div
           *ngIf="!isSplitting() && (generatedFrames().length > 0 || errorMessage())"
           class="frames-result"
@@ -208,7 +199,6 @@
     </div>
   </div>
 
-  <!-- Preview Modal -->
   <div *ngIf="showPreviewModal()" class="preview-modal-overlay" (click)="closePreviewModal()">
     <div class="preview-modal" (click)="$event.stopPropagation()">
       <div class="preview-modal-header">
@@ -272,7 +262,6 @@
     </div>
   </div>
 
-  <!-- Download Modal -->
   <div *ngIf="showDownloadModal()" class="download-modal-overlay" (click)="cancelDownload()">
     <div class="download-modal" (click)="$event.stopPropagation()">
       <div class="download-modal-header">
@@ -303,7 +292,6 @@
           </p>
         </div>
 
-        <!-- Background Removal Option -->
         <div class="option-section">
           <h4>{{ 'SPRITE_SHEET.PROCESSING_OPTIONS' | translate }}</h4>
           <label class="checkbox-container">

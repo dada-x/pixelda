@@ -2,12 +2,10 @@
   <h1>{{ 'IMAGE_GENERATION.TITLE' | translate }}</h1>
 
   <div class="layout-container">
-    <!-- Left Column: User Input Form -->
     <div class="left-column">
       <div class="generation-form">
         <h4>{{ 'IMAGE_GENERATION.GENERATION_SETTINGS' | translate }}</h4>
         <div class="form-content">
-          <!-- Character Description Section -->
           <div class="form-section">
             <h3>{{ 'IMAGE_GENERATION.CHARACTER_TEMPLATE' | translate }}</h3>
 
@@ -73,7 +71,6 @@
             </div>
           </div>
 
-          <!-- Generation Parameters Section -->
           <div class="form-section">
             <h3>{{ 'IMAGE_GENERATION.GENERATION_PARAMETERS' | translate }}</h3>
 
@@ -121,7 +118,6 @@
             </div>
           </div>
 
-          <!-- Action Buttons -->
           <div class="form-actions">
             <button (click)="generateImage()" [disabled]="loading()" class="generate-btn">
               {{
@@ -135,7 +131,6 @@
             </button>
           </div>
 
-          <!-- Final Prompt Editor -->
           <div class="prompt-preview">
             <h4>{{ 'IMAGE_GENERATION.FINAL_PROMPT' | translate }}</h4>
             <textarea
@@ -149,27 +144,22 @@
       </div>
     </div>
 
-    <!-- Right Column: Preview Box -->
     <div class="right-column">
-      <!-- Preview Box (Always Visible) -->
       <div class="preview-box">
         <h4>{{ 'IMAGE_GENERATION.PREVIEW' | translate }}</h4>
 
-        <!-- Loading State -->
         <div class="preview-loading" *ngIf="loading()">
           <div class="loading-spinner"></div>
           <p>{{ 'IMAGE_GENERATION.GENERATING_IMAGE' | translate }}</p>
           <small>{{ 'IMAGE_GENERATION.GENERATING_MESSAGE' | translate }}</small>
         </div>
 
-        <!-- Placeholder (only show when not loading and no result) -->
         <div class="preview-placeholder" *ngIf="!loading() && !result()">
           <div class="preview-icon">🖼️</div>
           <p>{{ 'IMAGE_GENERATION.PREVIEW_PLACEHOLDER' | translate }}</p>
           <small>{{ 'IMAGE_GENERATION.PREVIEW_MESSAGE' | translate }}</small>
         </div>
 
-        <!-- Result Section (only show when not loading and has result) -->
         <div *ngIf="!loading() && result()" class="result-section">
           <h3>{{ 'IMAGE_GENERATION.GENERATED_IMAGE' | translate }}</h3>
 

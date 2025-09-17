@@ -3,7 +3,7 @@
   <h1 style="margin: 0; font-size: 30px;">PiXelDa</h1>
 </div>
 
-PiXelDa 是一个基于 AI 的平台，专为生成像素艺术游戏开发资源而设计，包括图像和动画，使用 FastAPI 后端和 Angular 前端。它利用来自 Tongyi 和 Doubao 的先进 AI 模型为 2D 像素艺术游戏创建自定义内容。
+PiXelDa 是一个基于 AI 的平台，专为生成像素艺术游戏开发资源而设计，包括图像和动画，使用 FastAPI 后端和 Angular 前端。它利用来自 <a href="https://bailian.console.aliyun.com/?tab=api#/api/?type=model&url=2712195">Tongyi</a> 和 <a href="https://www.volcengine.com/docs/82379/1541594">Doubao</a> 的先进 AI 模型为 2D 像素艺术游戏创建自定义内容。
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>

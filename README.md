@@ -3,7 +3,7 @@
   <h1 style="margin: 0; font-size: 30px;">PiXelDa</h1>
 </div>
 
-PiXelDa is an AI-powered platform designed for generating pixel-art game assets, including images and animations, using a FastAPI backend and Angular frontend. It leverages advanced AI models from Tongyi and Doubao to create custom content for 2D pixel-art games.
+PiXelDa is an AI-powered platform designed for generating pixel-art game assets, including images and animations, using a FastAPI backend and Angular frontend. It leverages advanced AI models from <a href="https://bailian.console.aliyun.com/?tab=api#/api/?type=model&url=2712195">Tongyi</a> and <a href="https://www.volcengine.com/docs/82379/1541594">Doubao</a> to create custom content for 2D pixel-art games.
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>

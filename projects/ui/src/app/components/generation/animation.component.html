@@ -2,39 +2,40 @@
   <h1>{{ 'ANIMATION_GENERATION.TITLE' | translate }}</h1>
 
   <div class="layout-container">
-    <!-- Left Column: User Input Form -->
     <div class="left-column">
       <div class="generation-form">
         <h4>{{ 'ANIMATION_GENERATION.GENERATION_SETTINGS' | translate }}</h4>
         <div class="form-content">
-          <!-- Base Image Section -->
           <div class="form-section">
             <h3>{{ 'ANIMATION_GENERATION.BASE_IMAGE' | translate }}</h3>
 
             <div class="form-group">
-              <label for="imageUrl">{{ 'ANIMATION_GENERATION.IMAGE_URL' | translate }}</label>
               <div class="url-input-container">
-                <input
-                  id="imageUrl"
-                  type="url"
-                  [(ngModel)]="imageUrl"
-                  (input)="onFormChange()"
-                  [placeholder]="'ANIMATION_GENERATION.IMAGE_URL_PLACEHOLDER' | translate"
-                  class="url-input"
-                />
-                <div *ngIf="imageUrl" class="thumbnail-preview">
-                  <img
-                    [src]="imageUrl"
-                    alt="Preview"
-                    class="thumbnail-image"
-                    (error)="onThumbnailError()"
+                <div class="input-column">
+                  <label for="imageUrl">{{ 'ANIMATION_GENERATION.IMAGE_URL' | translate }}</label>
+                  <input
+                    id="imageUrl"
+                    type="url"
+                    [(ngModel)]="imageUrl"
+                    (input)="onFormChange()"
+                    [placeholder]="'ANIMATION_GENERATION.IMAGE_URL_PLACEHOLDER' | translate"
+                    class="url-input"
                   />
+                </div>
+                <div class="preview-column">
+                  <div *ngIf="imageUrl" class="thumbnail-preview">
+                    <img
+                      [src]="imageUrl"
+                      alt="Preview"
+                      class="thumbnail-image"
+                      (error)="onThumbnailError()"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Animation Parameters Section -->
           <div class="form-section">
             <h3>{{ 'ANIMATION_GENERATION.ANIMATION_PARAMETERS' | translate }}</h3>
 
@@ -75,7 +76,6 @@
             </div>
           </div>
 
-          <!-- Action Buttons -->
           <div class="form-actions">
             <button
               (click)="generateAnimation()"
@@ -96,27 +96,22 @@
       </div>
     </div>
 
-    <!-- Right Column: Preview Box -->
     <div class="right-column">
-      <!-- Video Preview Box -->
       <div class="preview-box">
         <h4>{{ 'ANIMATION_GENERATION.ANIMATION_PREVIEW' | translate }}</h4>
 
-        <!-- Loading State -->
         <div class="preview-loading" *ngIf="isGenerating()">
           <div class="loading-spinner"></div>
           <p>{{ 'ANIMATION_GENERATION.GENERATING_ANIMATION' | translate }}</p>
           <small>{{ 'ANIMATION_GENERATION.GENERATING_MESSAGE' | translate }}</small>
         </div>
 
-        <!-- Placeholder (only show when not loading and no result and no error) -->
         <div class="preview-placeholder" *ngIf="!isGenerating() && !result() && !errorMessage()">
           <div class="preview-icon">🎬</div>
           <p>{{ 'ANIMATION_GENERATION.PREVIEW_PLACEHOLDER' | translate }}</p>
           <small>{{ 'ANIMATION_GENERATION.PREVIEW_MESSAGE' | translate }}</small>
         </div>
 
-        <!-- Video Result Section (only show when not loading and has result or error) -->
         <div *ngIf="!isGenerating() && (result() || errorMessage())" class="result-section">
           <div *ngIf="errorMessage()" class="error-card">
             <div class="error-icon">❌</div>

@@ -471,7 +471,7 @@ h1 {
       padding: 32px;
       display: flex;
       flex-direction: column;
-      min-height: 0; /* Allow flex item to shrink below content size */
+      min-height: 0;
     }
   }
 }
@@ -573,7 +573,7 @@ h1 {
   margin-top: 16px;
   overflow-y: auto;
   flex: 1;
-  min-height: 0; /* Allow grid to shrink and show scrollbar */
+  min-height: 0;
 }
 
 .frame-item {
@@ -998,105 +998,5 @@ h1 {
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-  }
-}
-
-.checkbox-container {
-  display: flex;
-  align-items: flex-start;
-  cursor: pointer;
-  font-size: var(--font-size-md);
-  color: #a8fbd3;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 16px 0;
-  padding: 12px;
-  background: rgba(26, 42, 58, 0.3);
-  border: 1px solid #637ab9;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-
-  &:hover {
-    border-color: #a8fbd3;
-    background: rgba(168, 251, 211, 0.1);
-  }
-
-  input[type='checkbox'] {
-    display: none;
-  }
-
-  .checkmark {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #637ab9;
-    border-radius: 4px;
-    background: #1a1a2e;
-    margin-right: 12px;
-    position: relative;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-    margin-top: 2px;
-
-    &:hover {
-      border-color: #a8fbd3;
-      box-shadow: 0 0 0 2px rgba(168, 251, 211, 0.2);
-    }
-  }
-
-  input[type='checkbox']:checked + .checkmark {
-    background: #a8fbd3;
-    border-color: #a8fbd3;
-    box-shadow: 0 0 0 2px rgba(168, 251, 211, 0.3);
-
-    &::after {
-      content: '✓';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #1a1a2e;
-      font-size: var(--font-size-md);
-      font-weight: bold;
-    }
-  }
-
-  .option-content {
-    flex: 1;
-  }
-
-  .option-title {
-    font-size: var(--font-size-md);
-    color: #a8fbd3;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-}
-
-.option-description {
-  display: block;
-  color: #e5e7eb;
-  font-size: var(--font-size-md);
-  opacity: 0.8;
-  margin-top: 8px;
-  font-style: italic;
-  text-transform: none;
-  letter-spacing: 0.5px;
-  line-height: 1.4;
-}
-
-.option-section {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #637ab9;
-
-  h4 {
-    color: #a8fbd3;
-    text-shadow: 1px 1px 0px #637ab9;
-    font-size: var(--font-size-md);
-    margin: 0 0 12px 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
   }
 }
