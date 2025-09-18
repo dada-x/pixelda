@@ -40,8 +40,14 @@
         </div>
 
         <div class="item-content">
-          <div class="item-image" *ngIf="getPreviewUrl(item)">
-            <img [src]="getPreviewUrl(item)" [alt]="item.prompt" class="history-image" />
+          <div class="item-image" *ngIf="getPreviewUrl(item)" #itemImage>
+            <img
+              [src]="getPreviewUrl(item)"
+              [alt]="item.prompt"
+              class="history-image"
+              (mouseenter)="onMouseEnter(item)"
+              (mouseleave)="onMouseLeave()"
+            />
           </div>
 
           <div class="item-details">
@@ -62,6 +68,16 @@
       </div>
     </div>
   </div>
+</div>
+
+<div
+  class="image-preview"
+  *ngIf="previewVisible"
+  [class.visible]="previewVisible"
+  [style.left.px]="previewLeft"
+  [style.top.px]="previewTop"
+>
+  <img [src]="getPreviewUrl(hoveredItem!)" [alt]="hoveredItem!.prompt" />
 </div>
 
 <app-alert-modal

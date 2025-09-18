@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AlertService } from '../../services/alert.service';
@@ -26,6 +26,12 @@ interface GenerationHistoryItem {
 export class HistoryComponent implements OnInit {
   historyItems: GenerationHistoryItem[] = [];
   private readonly MAX_AGE_HOURS = 24;
+  hoveredItem: GenerationHistoryItem | null = null;
+  previewVisible: boolean = false;
+  previewLeft: number = 0;
+  previewTop: number = 0;
+
+  @ViewChildren('itemImage') itemImages!: QueryList<ElementRef>;
 
   constructor(public alertService: AlertService) {}
 
@@ -98,6 +104,23 @@ export class HistoryComponent implements OnInit {
   removeHistoryItem(itemId: string) {
     this.historyItems = this.historyItems.filter((item) => item.id !== itemId);
     localStorage.setItem('pixelda_generation_history', JSON.stringify(this.historyItems));
+  }
+
+  onMouseEnter(item: GenerationHistoryItem) {
+    this.hoveredItem = item;
+    const index = this.historyItems.indexOf(item);
+    const itemImageArray = this.itemImages.toArray();
+    if (itemImageArray[index]) {
+      const rect = itemImageArray[index].nativeElement.getBoundingClientRect();
+      this.previewLeft = rect.left + 100;
+      this.previewTop = rect.top - 10;
+      this.previewVisible = true;
+    }
+  }
+
+  onMouseLeave() {
+    this.hoveredItem = null;
+    this.previewVisible = false;
   }
   async copyUrl(url: string | null, event?: Event) {
     if (!url) {
