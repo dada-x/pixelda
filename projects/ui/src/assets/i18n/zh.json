@@ -47,6 +47,8 @@
     "IMAGE_GENERATION": {
         "TITLE": "图像生成",
         "GENERATION_SETTINGS": "⚙️ 生成设置",
+        "GENERATE_NEW": "🎨 生成新图像",
+        "EDIT_EXISTING": "✏️ 编辑现有图像",
         "CHARACTER_TEMPLATE": "角色模板",
         "CHARACTER_DESCRIPTION": "角色描述",
         "CHARACTER_DESCRIPTION_PLACEHOLDER": "描述角色（例如：年轻女性、老年男性、奇幻生物...）",
@@ -88,7 +90,18 @@
         "WEARING_ON_FACE": "头戴 {{item}}",
         "WEARING_ON_BODY": "身穿 {{item}}",
         "WEARING_ON_FEET": "脚穿 {{item}}",
-        "PROMPT_TEMPLATE": "高分辨率像素游戏资源，描绘 {{description}} 纯绿幕背景"
+        "PROMPT_TEMPLATE": "高分辨率像素游戏资源，描绘 {{description}} 纯绿幕背景",
+        "IMAGE_SOURCE": "图像来源",
+        "IMAGE_URL": "图像 URL",
+        "IMAGE_URL_PLACEHOLDER": "输入您要编辑的图像的 URL",
+        "EDIT_PROMPT": "编辑提示",
+        "EDIT_PROMPT_PLACEHOLDER": "描述您要如何修改图像（例如：改变发型、添加配饰、改变背景...）",
+        "EDIT_IMAGE": "编辑图像",
+        "EDITING": "编辑中...",
+        "EDIT_GENERATED": "✏️ 编辑图像",
+        "IMAGE_PREVIEW": "图像预览",
+        "LOADING_THUMBNAIL": "正在加载缩略图...",
+        "THUMBNAIL_ERROR": "加载缩略图失败"
     },
     "ANIMATION_GENERATION": {
         "TITLE": "🎬 动画生成",

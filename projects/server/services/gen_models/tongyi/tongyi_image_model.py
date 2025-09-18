@@ -30,7 +30,7 @@ def tongyi_gen_single_image_task(request: ImageGenerationRequest) -> Any:
             "negative_prompt": request.negative_prompt or "",
             "n": 1,
             "size": request.size,
-            "prompt_extend": True,
+            "prompt_extend": False,
         }
 
         if request.seed > 0:

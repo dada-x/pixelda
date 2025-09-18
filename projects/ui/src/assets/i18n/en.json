@@ -47,6 +47,8 @@
     "IMAGE_GENERATION": {
         "TITLE": "Image Generation",
         "GENERATION_SETTINGS": "⚙️ Generation Settings",
+        "GENERATE_NEW": "🎨 Generate New",
+        "EDIT_EXISTING": "✏️ Edit Existing",
         "CHARACTER_TEMPLATE": "Character Template",
         "CHARACTER_DESCRIPTION": "Character Description",
         "CHARACTER_DESCRIPTION_PLACEHOLDER": "Describe the character (e.g., young woman, elderly man, fantasy creature...)",
@@ -88,7 +90,18 @@
         "WEARING_ON_FACE": "wearing {{item}} on face",
         "WEARING_ON_BODY": "wearing {{item}} on body",
         "WEARING_ON_FEET": "wearing {{item}} on feet",
-        "PROMPT_TEMPLATE": "A high-resolution pixel-art game asset depicting {{description}}, against a solid green screen background"
+        "PROMPT_TEMPLATE": "A high-resolution pixel-art game asset depicting {{description}}, against a solid green screen background",
+        "IMAGE_SOURCE": "Image Source",
+        "IMAGE_URL": "Image URL",
+        "IMAGE_URL_PLACEHOLDER": "Enter URL of the image you want to edit",
+        "EDIT_PROMPT": "Edit Prompt",
+        "EDIT_PROMPT_PLACEHOLDER": "Describe how you want to modify the image (e.g., change hairstyle, add accessories, change background...)",
+        "EDIT_IMAGE": "Edit Image",
+        "EDITING": "Editing...",
+        "EDIT_GENERATED": "✏️ Edit",
+        "IMAGE_PREVIEW": "Image Preview",
+        "LOADING_THUMBNAIL": "Loading thumbnail...",
+        "THUMBNAIL_ERROR": "Failed to load thumbnail"
     },
     "ANIMATION_GENERATION": {
         "TITLE": "🎬 Animation Generation",
@@ -137,7 +150,7 @@
         "ERROR": "Error"
     },
     "SPRITE_SHEET": {
-        "TITLE": "🎨 Sprite Sheet Generator",
+        "TITLE": "🎨 Sprite Sheet Generation",
         "FRAME_SPLITTING_SETTINGS": "⚙️ Frame Splitting Settings",
         "VIDEO_SOURCE": "Video Source",
         "VIDEO_URL": "Video URL",
