@@ -84,7 +84,11 @@
         "LOADING_IMAGE": "Loading image...",
         "RESOLUTION_1024": "1024x1024",
         "RESOLUTION_1280": "1280x720",
-        "RESOLUTION_720": "720x1280"
+        "RESOLUTION_720": "720x1280",
+        "WEARING_ON_FACE": "wearing {{item}} on face",
+        "WEARING_ON_BODY": "wearing {{item}} on body",
+        "WEARING_ON_FEET": "wearing {{item}} on feet",
+        "PROMPT_TEMPLATE": "A high-resolution pixel-art game asset depicting {{description}}, against a solid green screen background"
     },
     "ANIMATION_GENERATION": {
         "TITLE": "🎬 Animation Generation",

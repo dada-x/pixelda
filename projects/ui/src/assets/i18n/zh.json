@@ -84,7 +84,11 @@
         "LOADING_IMAGE": "正在加载图像...",
         "RESOLUTION_1024": "1024x1024",
         "RESOLUTION_1280": "1280x720",
-        "RESOLUTION_720": "720x1280"
+        "RESOLUTION_720": "720x1280",
+        "WEARING_ON_FACE": "头戴 {{item}}",
+        "WEARING_ON_BODY": "身穿 {{item}}",
+        "WEARING_ON_FEET": "脚穿 {{item}}",
+        "PROMPT_TEMPLATE": "高分辨率像素游戏资源，描绘 {{description}} 纯绿幕背景"
     },
     "ANIMATION_GENERATION": {
         "TITLE": "🎬 动画生成",

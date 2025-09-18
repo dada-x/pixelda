@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   GenerationService,
   ImageGenerationRequest,
@@ -37,7 +37,8 @@ export class ImageComponent implements OnInit, OnDestroy {
   constructor(
     private generationService: GenerationService,
     private settingService: SettingsService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -119,24 +120,30 @@ export class ImageComponent implements OnInit, OnDestroy {
     }
 
     if (this.faceWear.trim()) {
-      parts.push(`wearing ${this.faceWear.trim()} on face`);
+      parts.push(
+        this.translate.instant('IMAGE_GENERATION.WEARING_ON_FACE', { item: this.faceWear.trim() })
+      );
     }
 
     if (this.bodyWear.trim()) {
-      parts.push(`wearing ${this.bodyWear.trim()} on body`);
+      parts.push(
+        this.translate.instant('IMAGE_GENERATION.WEARING_ON_BODY', { item: this.bodyWear.trim() })
+      );
     }
 
     if (this.footWear.trim()) {
-      parts.push(`wearing ${this.footWear.trim()} on feet`);
+      parts.push(
+        this.translate.instant('IMAGE_GENERATION.WEARING_ON_FEET', { item: this.footWear.trim() })
+      );
     }
 
     if (this.additionalDescription.trim()) {
       parts.push(this.additionalDescription.trim());
     }
 
-    return `A high-resolution pixel-art game asset depicting ${parts.join(
-      ', '
-    )} Against a solid green screen background as RGB #00b140.`;
+    return this.translate.instant('IMAGE_GENERATION.PROMPT_TEMPLATE', {
+      description: parts.join(', '),
+    });
   }
 
   generateImage() {
