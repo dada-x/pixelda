@@ -219,6 +219,10 @@ h1 {
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 .error-card {
@@ -572,8 +576,30 @@ h1 {
   padding: 8px 0;
   margin-top: 16px;
   overflow-y: auto;
-  flex: 1;
   min-height: 0;
+  max-height: 100%;
+  padding: 6px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #1a1a2e;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #637ab9;
+    border-radius: 4px;
+
+    &:hover {
+      background: #a8fbd3;
+    }
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: #637ab9 #1a1a2e;
 }
 
 .frame-item {
