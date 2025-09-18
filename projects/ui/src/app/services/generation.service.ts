@@ -12,6 +12,16 @@ export interface ImageGenerationRequest {
   model_type?: string;
 }
 
+export interface ImageEditRequest {
+  task_id: string;
+  image_url: string;
+  prompt: string;
+  negative_prompt?: string;
+  size?: string;
+  seed?: number;
+  model_type?: string;
+}
+
 export interface VideoGenerationRequest {
   task_id: string;
   base_image_url: string;
@@ -58,6 +68,12 @@ export class GenerationService {
   generateImage(request: ImageGenerationRequest): Observable<GenerationResponse> {
     return this.http
       .post<GenerationResponse>(`${this.apiUrl}/generate/image`, request)
+      .pipe(catchError(this.handleError));
+  }
+
+  editImage(request: ImageEditRequest): Observable<GenerationResponse> {
+    return this.http
+      .post<GenerationResponse>(`${this.apiUrl}/edit/image`, request)
       .pipe(catchError(this.handleError));
   }
 

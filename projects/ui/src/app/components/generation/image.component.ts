@@ -6,6 +6,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   GenerationService,
   ImageGenerationRequest,
+  ImageEditRequest,
   GenerationResponse,
 } from '../../services/generation.service';
 import { SettingsService } from '../../services/settings.service';
@@ -78,14 +79,17 @@ export class ImageComponent implements OnInit, OnDestroy {
     this.loading.set(true);
     this.imageLoading.set(true);
 
-    const request: any = {
+    const request: ImageEditRequest = {
       image_url: this.imageUrl,
       prompt: prompt,
       task_id: this.generationService.generateTaskId('img_edit'),
       model_type: this.settingService.getActiveModel(),
+      negative_prompt: this.negativePrompt || undefined,
+      size: this.size,
+      seed: this.seed || undefined,
     };
 
-    this.generationService.generateImage(request as any).subscribe({
+    this.generationService.editImage(request).subscribe({
       next: (result) => {
         this.result.set(result);
         this.loading.set(false);

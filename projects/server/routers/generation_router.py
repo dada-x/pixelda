@@ -10,6 +10,7 @@ from defs import (
     FrameSplitResponse,
     GenerationResponse,
     ZipFramesRequest,
+    ImageEditRequest,
 )
 from services.gen_models.model_wrapper import ModelRouter
 from services.frame import process_split_frames, zip_frames
@@ -55,6 +56,50 @@ async def generate_image(
     except Exception as e:
         logger.error(f"Error generating image: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error generating image: {str(e)}")
+
+
+@router.post("/edit/image", response_model=GenerationResponse)
+async def edit_image(
+    request: ImageEditRequest, x_api_key: str = Header(None, alias="X-API-Key")
+):
+    logger.info(f"Editing image with prompt: {request.prompt}")
+
+    if x_api_key:
+        request.api_key = x_api_key
+    elif not request.api_key:
+        raise HTTPException(
+            status_code=400,
+            detail="API key is required. Provide it in X-API-Key header or request body.",
+        )
+
+    if not request.image_url:
+        raise HTTPException(
+            status_code=400,
+            detail="Base image URL is required for image editing.",
+        )
+
+    try:
+        result = await asyncio.to_thread(
+            ModelRouter.edit_image,
+            request,
+        )
+
+        if not result:
+            raise HTTPException(status_code=500, detail="No result URL returned")
+
+        response_task_id = request.task_id
+        if not response_task_id:
+            response_task_id = (
+                f"edit_{request.prompt[:20].replace(' ', '_')}_{request.model_type}"
+            )
+
+        logger.info(f"Image edited successfully: {result}")
+        return GenerationResponse(url=result, task_id=response_task_id)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error editing image: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error editing image: {str(e)}")
 
 
 @router.post("/generate/video", response_model=GenerationResponse)
