@@ -38,7 +38,7 @@ PiXelDa is an AI-powered platform designed for generating pixel-art game assets,
 
   #### Sample Prompts
 
-  A high-resolution pixel-art game asset depicting a young ninjia beauty, cartoon style, wearing no mask on face, wearing black ninjia gear on body, wearing black shoes on feet, standing in a relaxed pose with arms at sides, full-body front view facing straight ahead, featuring sharp edges, vibrant colors, and crisp pixel details. Against a solid green screen background as RGB #00b140.
+  A high-resolution pixel-art game asset depicting a young ninjia beauty, cartoon style, wearing no mask on face, wearing black ninjia gear on body, wearing black shoes on feet, standing in a relaxed pose with arms at sides, full-body front view facing straight ahead, featuring sharp edges, vibrant colors, and crisp pixel details. Against a solid gray background.
 
 - ### 🎬 Animation Generation
 
