@@ -90,7 +90,7 @@
         "WEARING_ON_FACE": "头戴 {{item}}",
         "WEARING_ON_BODY": "身穿 {{item}}",
         "WEARING_ON_FEET": "脚穿 {{item}}",
-        "PROMPT_TEMPLATE": "高分辨率像素游戏资源，描绘 {{description}} 灰色背景",
+        "PROMPT_TEMPLATE": "高分辨率2D像素游戏资源，描绘 {{description}} 灰色背景",
         "IMAGE_SOURCE": "图像来源",
         "IMAGE_URL": "图像 URL",
         "IMAGE_URL_PLACEHOLDER": "输入您要编辑的图像的 URL",
