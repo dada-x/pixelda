@@ -161,8 +161,10 @@ export class ImageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFormChange() {
-    this.updateFinalPrompt();
+  onFormChange(updateFinalPrompt: boolean = true) {
+    if (updateFinalPrompt) {
+      this.updateFinalPrompt();
+    }
     this.saveFormData();
   }
 

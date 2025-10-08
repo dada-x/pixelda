@@ -107,7 +107,7 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="size">{{ 'IMAGE_GENERATION.RESOLUTION' | translate }}</label>
-                  <select id="size" [(ngModel)]="size" (change)="onFormChange()">
+                  <select id="size" [(ngModel)]="size" (change)="onFormChange(false)">
                     <option value="1024*1024">
                       {{ 'IMAGE_GENERATION.RESOLUTION_1024' | translate }}
                     </option>
@@ -126,7 +126,7 @@
                     type="number"
                     id="seed"
                     [(ngModel)]="seed"
-                    (input)="onFormChange()"
+                    (input)="onFormChange(false)"
                     [placeholder]="'IMAGE_GENERATION.SEED_PLACEHOLDER' | translate"
                     min="1"
                     max="999999999"
