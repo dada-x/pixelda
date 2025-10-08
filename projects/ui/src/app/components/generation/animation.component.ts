@@ -45,7 +45,9 @@ export class AnimationComponent implements OnInit, OnDestroy {
       this.imageUrl.set(passedImageUrl);
       localStorage.removeItem('pixelda_animation_image_url');
       this.isLocalImage.set(this.imageUrl().startsWith('data:'));
-      this.displayImageUrl.set(this.isLocalImage() ? this.fileName() || 'local image' : this.imageUrl());
+      this.displayImageUrl.set(
+        this.isLocalImage() ? this.fileName() || 'local image' : this.imageUrl()
+      );
       this.saveFormData();
     }
   }

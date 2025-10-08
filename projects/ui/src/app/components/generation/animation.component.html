@@ -27,13 +27,9 @@
                       id="fileInput"
                       accept="image/png,image/jpeg"
                       (change)="onFileSelected($event)"
-                      style="display: none;"
+                      style="display: none"
                     />
-                    <button
-                      type="button"
-                      (click)="triggerFileInput()"
-                      class="upload-btn"
-                    >
+                    <button type="button" (click)="triggerFileInput()" class="upload-btn">
                       {{ 'ANIMATION_GENERATION.UPLOAD_IMAGE' | translate }}
                     </button>
                   </div>
