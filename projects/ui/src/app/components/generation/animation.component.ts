@@ -18,10 +18,14 @@ import { SettingsService } from '../../services/settings.service';
   styleUrls: ['./animation.component.scss'],
 })
 export class AnimationComponent implements OnInit, OnDestroy {
-  imageUrl: string = '';
+  imageUrl = signal('');
   prompt: string = '';
   negativePrompt: string = '';
   resolution: string = '480P';
+
+  isLocalImage = signal(false);
+  displayImageUrl = signal('');
+  fileName = signal('');
 
   result = signal<GenerationResponse | null>(null);
 
@@ -38,8 +42,10 @@ export class AnimationComponent implements OnInit, OnDestroy {
     this.loadFormData();
     const passedImageUrl = localStorage.getItem('pixelda_animation_image_url');
     if (passedImageUrl) {
-      this.imageUrl = passedImageUrl;
+      this.imageUrl.set(passedImageUrl);
       localStorage.removeItem('pixelda_animation_image_url');
+      this.isLocalImage.set(this.imageUrl().startsWith('data:'));
+      this.displayImageUrl.set(this.isLocalImage() ? this.fileName() || 'local image' : this.imageUrl());
       this.saveFormData();
     }
   }
@@ -50,10 +56,11 @@ export class AnimationComponent implements OnInit, OnDestroy {
 
   private saveFormData() {
     const formData = {
-      imageUrl: this.imageUrl,
+      imageUrl: this.imageUrl(),
       prompt: this.prompt,
       negativePrompt: this.negativePrompt,
       resolution: this.resolution,
+      fileName: this.fileName(),
     };
     localStorage.setItem('pixelda_animation_form', JSON.stringify(formData));
   }
@@ -63,10 +70,13 @@ export class AnimationComponent implements OnInit, OnDestroy {
     if (savedData) {
       try {
         const formData = JSON.parse(savedData);
-        this.imageUrl = formData.imageUrl || '';
+        this.imageUrl.set(formData.imageUrl || '');
         this.prompt = formData.prompt || '';
         this.negativePrompt = formData.negativePrompt || '';
         this.resolution = formData.resolution || '480P';
+        this.fileName.set(formData.fileName || '');
+        this.isLocalImage.set(this.imageUrl().startsWith('data:'));
+        this.displayImageUrl.set(this.isLocalImage() ? this.fileName() : this.imageUrl());
       } catch (error) {
         console.error('Error loading saved animation form data:', error);
         localStorage.removeItem('pixelda_animation_form');
@@ -75,11 +85,38 @@ export class AnimationComponent implements OnInit, OnDestroy {
   }
 
   onFormChange() {
+    if (this.displayImageUrl() !== this.fileName()) {
+      this.isLocalImage.set(false);
+    }
+    if (!this.isLocalImage()) {
+      this.imageUrl.set(this.displayImageUrl());
+    }
     this.saveFormData();
   }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imageUrl.set(e.target?.result as string);
+        this.displayImageUrl.set(file.name);
+        this.fileName.set(file.name);
+        this.isLocalImage.set(true);
+        this.onFormChange();
+      };
+      reader.readAsDataURL(file);
+    }
+    event.target.value = '';
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput.click();
+  }
+
   generateAnimation() {
-    if (!this.imageUrl || !this.prompt) {
+    if (!this.imageUrl() || !this.prompt) {
       this.errorMessage.set('Please provide both image URL and prompt');
       return;
     }
@@ -89,7 +126,7 @@ export class AnimationComponent implements OnInit, OnDestroy {
     this.result.set(null);
 
     const request: VideoGenerationRequest = {
-      base_image_url: this.imageUrl,
+      base_image_url: this.imageUrl(),
       prompt: 'pixel-art game animation, ' + this.prompt,
       negative_prompt: this.negativePrompt || undefined,
       resolution: this.resolution,
@@ -120,7 +157,7 @@ export class AnimationComponent implements OnInit, OnDestroy {
       type: 'animation',
       url: result.url,
       prompt: prompt,
-      baseImageUrl: this.imageUrl,
+      baseImageUrl: this.imageUrl(),
       timestamp: new Date().toISOString(),
       resolution: this.resolution,
     };
@@ -155,10 +192,13 @@ export class AnimationComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    this.imageUrl = '';
+    this.imageUrl.set('');
     this.prompt = '';
     this.negativePrompt = '';
     this.resolution = '480P';
+    this.isLocalImage.set(false);
+    this.displayImageUrl.set('');
+    this.fileName.set('');
     this.result.set(null);
     this.errorMessage.set('');
     localStorage.removeItem('pixelda_animation_form');

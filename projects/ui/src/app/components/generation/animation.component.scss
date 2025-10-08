@@ -166,6 +166,33 @@ h1 {
     flex: 1;
   }
 
+  .input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .upload-btn {
+    background: #637ab9;
+    color: #e5e7eb;
+    border: 2px solid #637ab9;
+    padding: 6px 12px;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+
+    &:hover {
+      background: #a8fbd3;
+      border-color: #a8fbd3;
+      color: #1a1a2e;
+    }
+  }
+
   .thumbnail-preview {
     width: 100px;
     height: 100px;

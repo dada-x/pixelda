@@ -13,19 +13,35 @@
               <div class="url-input-container">
                 <div class="input-column">
                   <label for="imageUrl">{{ 'ANIMATION_GENERATION.IMAGE_URL' | translate }}</label>
-                  <input
-                    id="imageUrl"
-                    type="url"
-                    [(ngModel)]="imageUrl"
-                    (input)="onFormChange()"
-                    [placeholder]="'ANIMATION_GENERATION.IMAGE_URL_PLACEHOLDER' | translate"
-                    class="url-input"
-                  />
+                  <div class="input-row">
+                    <input
+                      id="imageUrl"
+                      type="url"
+                      [ngModel]="displayImageUrl()"
+                      (ngModelChange)="displayImageUrl.set($event); onFormChange()"
+                      [placeholder]="'ANIMATION_GENERATION.IMAGE_URL_PLACEHOLDER' | translate"
+                      class="url-input"
+                    />
+                    <input
+                      type="file"
+                      id="fileInput"
+                      accept="image/png,image/jpeg"
+                      (change)="onFileSelected($event)"
+                      style="display: none;"
+                    />
+                    <button
+                      type="button"
+                      (click)="triggerFileInput()"
+                      class="upload-btn"
+                    >
+                      {{ 'ANIMATION_GENERATION.UPLOAD_IMAGE' | translate }}
+                    </button>
+                  </div>
                 </div>
                 <div class="preview-column">
-                  <div *ngIf="imageUrl" class="thumbnail-preview">
+                  <div *ngIf="imageUrl()" class="thumbnail-preview">
                     <img
-                      [src]="imageUrl"
+                      [src]="imageUrl()"
                       alt="Preview"
                       class="thumbnail-image"
                       (error)="onThumbnailError()"
@@ -79,7 +95,7 @@
           <div class="form-actions">
             <button
               (click)="generateAnimation()"
-              [disabled]="isGenerating() || !imageUrl || !prompt"
+              [disabled]="isGenerating() || !imageUrl() || !prompt"
               class="generate-btn"
             >
               {{
