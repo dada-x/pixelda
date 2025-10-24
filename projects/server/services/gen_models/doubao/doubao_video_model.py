@@ -3,7 +3,7 @@ import time
 from volcenginesdkarkruntime import Ark
 import logging
 from services.gen_models.utils import download_from_url
-from services.gen_models.base_video_service import BaseVideoService
+from projects.server.services.gen_models.base_service import BaseVideoService
 from defs import DEFAULT_DOUBAO_VIDEO_MODEL, VideoGenerationRequest
 
 

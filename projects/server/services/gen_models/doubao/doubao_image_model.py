@@ -5,7 +5,7 @@ import logging
 
 from defs import DEFAULT_DOUBAO_IMAGE_MODEL, ImageEditRequest, ImageGenerationRequest
 from services.gen_models.utils import download_from_url
-from services.gen_models.base_image_service import BaseImageService
+from services.gen_models.base_service import BaseImageService
 
 logger = logging.getLogger(__name__)
 

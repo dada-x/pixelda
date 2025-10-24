@@ -11,6 +11,9 @@ DEFAULT_TONGYI_VIDEO_MODEL = "wan2.2-i2v-flash"
 DEFAULT_DOUBAO_IMAGE_MODEL = "doubao-seedream-4-0-250828"
 DEFAULT_DOUBAO_VIDEO_MODEL = "doubao-seedance-1-0-pro-250528"
 
+DEFAULT_TEXT_ENGINE_MAX_TOKENS = 2048
+DEFAULT_DOUBAO_CHAT_MODEL = "doubao-seed-1-6-251015"
+
 
 class ImageGenerationRequest(BaseModel):
     api_key: Optional[str] = None
@@ -32,6 +35,17 @@ class VideoGenerationRequest(BaseModel):
     prompt: str
     negative_prompt: str = ""
     resolution: str = DEFAULT_VIDEO_RESOLUTION
+    task_id: Optional[str] = None
+    model_type: str = "tongyi"
+
+
+class MusicGenerationRequest(BaseModel):
+    api_key: Optional[str] = None
+    prompt: str
+    seed: int = -1
+    duration: int = 30
+    genre: str = "pop"
+    tempo: str = "medium"
     task_id: Optional[str] = None
     model_type: str = "tongyi"
 
@@ -58,5 +72,6 @@ class FrameSplitResponse(BaseModel):
 
 class GenerationResponse(BaseModel):
     url: str
+    original_content: Optional[str] = None
     task_id: Optional[str] = None
     error_info: Optional[str] = None

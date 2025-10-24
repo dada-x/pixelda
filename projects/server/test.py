@@ -1,5 +1,5 @@
 from services.gen_models.model_wrapper import ModelRouter
-from defs import VideoGenerationRequest, ImageGenerationRequest
+from defs import VideoGenerationRequest, ImageGenerationRequest, MusicGenerationRequest
 import os
 
 
@@ -41,6 +41,8 @@ def test_generation_flow():
 
     print(f"Video generated: {video_url}")
     print("Test completed successfully!")
+
+def test_music_gen():
 
 
 if __name__ == "__main__":

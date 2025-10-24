@@ -2,6 +2,7 @@ from http import HTTPStatus
 from urllib.parse import urlparse, unquote
 from pathlib import PurePosixPath
 import urllib.request
+from datetime import datetime
 import logging
 from services.path import get_cache_file_path
 
@@ -24,3 +25,14 @@ def handle_api_response(task_or_response, operation: str) -> None:
         error_msg = f"{operation} failed - Status: {task_or_response.status_code}, Code: {task_or_response.code}, Message: {task_or_response.message}"
         logger.error(error_msg)
         raise Exception(error_msg)
+
+
+def save_abc_to_file(content: str | None) -> str:
+    if content is None:
+        raise ValueError("No content to save")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_path = get_cache_file_path(f"abc_{timestamp}.txt")
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(content)
+
+    return content
