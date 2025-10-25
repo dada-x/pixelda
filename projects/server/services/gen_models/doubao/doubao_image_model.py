@@ -4,7 +4,7 @@ from volcenginesdkarkruntime import Ark
 import logging
 
 from defs import DEFAULT_DOUBAO_IMAGE_MODEL, ImageEditRequest, ImageGenerationRequest
-from services.gen_models.utils import download_from_url
+from services.gen_models.common import download_from_url
 from services.gen_models.base_service import BaseImageService
 
 logger = logging.getLogger(__name__)

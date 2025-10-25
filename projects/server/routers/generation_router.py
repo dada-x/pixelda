@@ -13,7 +13,7 @@ from defs import (
     ImageEditRequest,
 )
 from services.gen_models.model_wrapper import ModelRouter
-from services.frame import process_split_frames, zip_frames
+from services.utils.frame import process_split_frames, zip_frames
 
 logger = logging.getLogger(__name__)
 

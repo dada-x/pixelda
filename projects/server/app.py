@@ -5,7 +5,7 @@ import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
 from fastapi.routing import APIRoute
-from services.path import get_log_folder, get_cache_folder
+from services.utils.path import get_log_folder, get_cache_folder
 from routers.generation_router import router as generation_router
 
 

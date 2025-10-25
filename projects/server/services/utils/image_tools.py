@@ -3,7 +3,7 @@ import numpy as np
 from rembg import remove, new_session
 import cv2
 
-from services.path import get_cache_folder
+from services.utils.path import get_cache_folder
 
 cache_dir = os.path.join(get_cache_folder(), "transparent_images")
 os.makedirs(cache_dir, exist_ok=True)

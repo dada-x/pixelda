@@ -42,8 +42,24 @@ def test_generation_flow():
     print(f"Video generated: {video_url}")
     print("Test completed successfully!")
 
+
 def test_music_gen():
+    print("Starting music generation...")
+    music_request = MusicGenerationRequest(
+        api_key=os.getenv("DOUBAO_API_KEY", "---"),
+        prompt="A calm and soothing melody with gentle strings in the background, evoking a sense of peace and tranquility.",
+        duration=30,
+        genre="Classical",
+        tempo="Moderate",
+        model_type="doubao",
+    )
+    print(f"Using model type: {music_request.model_type}")
+    music_response = ModelRouter.generate_abc_music(music_request)
+
+    if music_response is None:
+        print("Music generation failed")
+        return
 
 
 if __name__ == "__main__":
-    test_generation_flow()
+    test_music_gen()

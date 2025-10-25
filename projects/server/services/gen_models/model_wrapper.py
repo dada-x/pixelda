@@ -1,5 +1,11 @@
 import logging
-from defs import ImageGenerationRequest, VideoGenerationRequest, ImageEditRequest
+from defs import (
+    ImageGenerationRequest,
+    VideoGenerationRequest,
+    ImageEditRequest,
+    MusicGenerationRequest,
+    GenerationResponse,
+)
 
 from services.gen_models.tongyi.tongyi_image_model import (
     tongyi_gen_single_image_task,
@@ -18,6 +24,9 @@ from services.gen_models.doubao.doubao_image_model import (
 from services.gen_models.doubao.doubao_video_model import (
     doubao_gen_animation_task,
     doubao_wait_animation_task,
+)
+from services.gen_models.doubao.doubao_music_model import (
+    doubao_gen_abc_music,
 )
 
 logger = logging.getLogger(__name__)
@@ -75,6 +84,17 @@ class ModelRouter:
             )
 
     @staticmethod
+    def generate_abc_music(request: MusicGenerationRequest) -> str:
+        """Route music generation request to appropriate model"""
+        model_type = request.model_type.lower()
+
+        if model_type == "doubao":
+            logger.info("Routing music generation to Doubao model")
+            return ModelRouter._generate_abc_music_doubao(request)
+        else:
+            raise ValueError(f"Unsupported model type: {model_type}. Supported: doubao")
+
+    @staticmethod
     def _generate_image_tongyi(request: ImageGenerationRequest) -> str:
         """Handle Tongyi image generation (async task-based)"""
         if not request.api_key:
@@ -120,6 +140,15 @@ class ModelRouter:
         task = doubao_gen_animation_task(request)
         return doubao_wait_animation_task(task, request.api_key)
 
+    @staticmethod
+    def _generate_abc_music_doubao(
+        request: MusicGenerationRequest,
+    ) -> str:
+        """Handle Doubao music generation"""
+        if not request.api_key:
+            raise ValueError("API key is required for Doubao model")
+        return doubao_gen_abc_music(request)
+
 
 def generate_image(request: ImageGenerationRequest) -> str:
     """Generate image using model router"""
@@ -134,3 +163,8 @@ def edit_image(request: ImageEditRequest) -> str:
 def generate_video(request: VideoGenerationRequest) -> str:
     """Generate video using model router"""
     return ModelRouter.generate_video(request)
+
+
+def generate_music(request: MusicGenerationRequest) -> str:
+    """Generate music using model router"""
+    return ModelRouter.generate_abc_music(request)

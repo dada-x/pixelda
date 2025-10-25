@@ -1,8 +1,11 @@
 from typing import Any
 from dashscope import VideoSynthesis
 import logging
-from services.gen_models.utils import download_from_url, handle_api_response
-from projects.server.services.gen_models.base_service import BaseVideoService
+from services.gen_models.common import (
+    download_from_url,
+    handle_api_response,
+)
+from services.gen_models.base_service import BaseVideoService
 from defs import DEFAULT_TONGYI_VIDEO_MODEL, VideoGenerationRequest
 
 

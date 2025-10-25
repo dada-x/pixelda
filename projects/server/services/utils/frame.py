@@ -11,8 +11,8 @@ from fastapi import HTTPException
 from urllib.parse import unquote, urlparse
 from typing import Optional
 
-from services.path import get_cache_folder
-from services.image_tools import remove_solid_background
+from services.utils.path import get_cache_folder
+from services.utils.image_tools import remove_solid_background
 from defs import FrameSplitRequest
 
 
