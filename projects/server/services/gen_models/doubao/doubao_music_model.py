@@ -13,16 +13,18 @@ from defs import (
     MusicGenerationRequest,
 )
 from services.utils.music_tools import (
-    write_abc_notation_to_file,
+    to_original_wav,
     cache_abc_to_file,
-    midi_to_chiptune_wav,
+    to_chiptune_wav,
 )
 from services.gen_models.base_service import BaseMusicService
 
 logger = logging.getLogger(__name__)
 
 with open(
-    os.path.join(os.path.dirname(__file__), "..", "docs", "abc_notation.md"),
+    os.path.join(
+        os.path.dirname(__file__), "..", "..", "..", "assets", "abc_notation.md"
+    ),
     "r",
     encoding="utf-8",
 ) as f:
@@ -90,7 +92,7 @@ class DoubaoMusicService(BaseMusicService):
 
     def _execute_request(
         self, client: Ark, params: Dict[str, Any], operation: str
-    ) -> str:
+    ) -> tuple[str, str]:
         try:
             response = client.beta.chat.completions.parse(**params)
 
@@ -99,8 +101,8 @@ class DoubaoMusicService(BaseMusicService):
                     TempChatResponse, response.choices[0].message.parsed
                 ).notation
                 cache_abc_to_file(notation)
-                mid_file = write_abc_notation_to_file(notation)
-                return midi_to_chiptune_wav(mid_file)
+
+                return (to_original_wav(notation), to_chiptune_wav(notation))
             else:
                 raise TypeError("Response is not compatible with ChatCompletion")
 
@@ -108,7 +110,9 @@ class DoubaoMusicService(BaseMusicService):
             self.logger.error(f"Failed to complete {operation.lower()}: {str(e)}")
             raise
 
-    def generate_music(self, request: MusicGenerationRequest, operation: str) -> str:
+    def generate_music(
+        self, request: MusicGenerationRequest, operation: str
+    ) -> tuple[str, str]:
         self._validate_request(request)
         assert request.api_key is not None
 
@@ -122,6 +126,6 @@ class DoubaoMusicService(BaseMusicService):
 _service = DoubaoMusicService()
 
 
-def doubao_gen_abc_music(request: MusicGenerationRequest) -> str:
+def doubao_gen_abc_music(request: MusicGenerationRequest) -> tuple[str, str]:
     _service.logger.info(f"Generating music with prompt: {request.prompt}")
     return _service.generate_music(request, "Music generation")

@@ -46,11 +46,11 @@ def test_generation_flow():
 def test_music_gen():
     print("Starting music generation...")
     music_request = MusicGenerationRequest(
-        api_key=os.getenv("DOUBAO_API_KEY", "---"),
-        prompt="A calm and soothing melody with gentle strings in the background, evoking a sense of peace and tranquility.",
+        api_key=os.getenv("DOUBAO_API_KEY", "db57a170-30e9-4312-9029-8a7b2b3abb56"),
+        prompt="A fierce rock song expresses rural love.",
         duration=30,
-        genre="Classical",
-        tempo="Moderate",
+        genre="Rock",
+        tempo="Presto",
         model_type="doubao",
     )
     print(f"Using model type: {music_request.model_type}")

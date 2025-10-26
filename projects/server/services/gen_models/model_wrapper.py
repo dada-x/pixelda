@@ -84,7 +84,7 @@ class ModelRouter:
             )
 
     @staticmethod
-    def generate_abc_music(request: MusicGenerationRequest) -> str:
+    def generate_abc_music(request: MusicGenerationRequest) -> tuple[str, str]:
         """Route music generation request to appropriate model"""
         model_type = request.model_type.lower()
 
@@ -143,7 +143,7 @@ class ModelRouter:
     @staticmethod
     def _generate_abc_music_doubao(
         request: MusicGenerationRequest,
-    ) -> str:
+    ) -> tuple[str, str]:
         """Handle Doubao music generation"""
         if not request.api_key:
             raise ValueError("API key is required for Doubao model")
@@ -165,6 +165,6 @@ def generate_video(request: VideoGenerationRequest) -> str:
     return ModelRouter.generate_video(request)
 
 
-def generate_music(request: MusicGenerationRequest) -> str:
+def generate_music(request: MusicGenerationRequest) -> tuple[str, str]:
     """Generate music using model router"""
     return ModelRouter.generate_abc_music(request)

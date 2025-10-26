@@ -70,6 +70,13 @@ class FrameSplitResponse(BaseModel):
     error_info: Optional[str] = None
 
 
+class MusicResponse(BaseModel):
+    original: str
+    chiptune: str
+    task_id: str
+    error_info: Optional[str] = None
+
+
 class GenerationResponse(BaseModel):
     url: str
     original_content: Optional[str] = None
