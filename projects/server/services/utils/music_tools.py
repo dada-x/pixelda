@@ -12,10 +12,7 @@ def get_music_cache_file_path(file_name: str) -> str:
     return get_cache_file_path(file_name, subfolder="music")
 
 
-def cache_abc_to_file(abc_notation: str | None) -> str:
-    if abc_notation is None:
-        raise ValueError("No content to save")
-
+def cache_abc_to_file(abc_notation: str) -> str:
     file_path = get_music_cache_file_path(f"abc.abc")
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(abc_notation)
@@ -23,9 +20,7 @@ def cache_abc_to_file(abc_notation: str | None) -> str:
     return abc_notation
 
 
-def to_original_wav(abc_notation: str | None) -> str:
-    if abc_notation is None:
-        raise ValueError("No content to save")
+def to_original_wav(abc_notation: str) -> str:
     try:
         score = Score.from_abc(abc_notation, ttype="tick")
         score = cast(ScoreQuarter, score)
@@ -38,9 +33,7 @@ def to_original_wav(abc_notation: str | None) -> str:
         raise ValueError(f"Failed to convert ABC to original WAV: {str(e)}")
 
 
-def to_chiptune_wav(abc_notation: str | None) -> str:
-    if abc_notation is None:
-        raise ValueError("No content to save")
+def to_chiptune_wav(abc_notation: str) -> str:
     try:
         score = Score.from_abc(abc_notation, ttype="tick")
         score = cast(ScoreQuarter, score)

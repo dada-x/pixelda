@@ -76,6 +76,11 @@ class TongyiMusicService(BaseMusicService):
 
             if isinstance(response, DashScopeGenerationResponse):
                 notation = TempChatResponse(**json.loads(response.output.text)).notation
+                if notation is None:
+                    raise ValueError("empty notation")
+                notation = "\n".join(
+                    [line for line in notation.splitlines() if line.strip() != ""]
+                )
 
                 cache_abc_to_file(notation)
                 return (to_original_wav(notation), to_chiptune_wav(notation))

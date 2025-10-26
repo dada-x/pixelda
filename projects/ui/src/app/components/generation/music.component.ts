@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import 'media-chrome';
 import {
   GenerationService,
   MusicGenerationRequest,
@@ -13,6 +15,7 @@ import { SettingsService } from '../../services/settings.service';
   selector: 'app-music',
   standalone: true,
   imports: [CommonModule, FormsModule, TranslateModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './music.component.html',
   styleUrls: ['./music.component.scss'],
 })

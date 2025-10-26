@@ -81,6 +81,11 @@ class DoubaoMusicService(BaseMusicService):
                 notation = cast(
                     TempChatResponse, response.choices[0].message.parsed
                 ).notation
+                if notation is None:
+                    raise ValueError("empty notation")
+                notation = "\n".join(
+                    [line for line in notation.splitlines() if line.strip() != ""]
+                )
 
                 cache_abc_to_file(notation)
                 return (to_original_wav(notation), to_chiptune_wav(notation))

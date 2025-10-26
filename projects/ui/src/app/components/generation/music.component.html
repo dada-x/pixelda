@@ -167,39 +167,57 @@
             </div>
 
             <div class="audio-display" *ngIf="result()?.original || result()?.chiptune">
-            <div *ngIf="result()?.original" class="audio-player">
-              <div class="scanlines"></div>
-              <div class="corner-bl"></div>
-              <div class="corner-br"></div>
-              <h4>
-                {{ 'MUSIC_GENERATION.ORIGINAL_VERSION' | translate }}
-                <div class="title-glow"></div>
-              </h4>
-              <audio
-                controls
-                [src]="result()?.original"
-                (loadstart)="audioLoading.set(true)"
-                (canplaythrough)="onAudioLoad()"
-                (error)="onAudioError()"
-              ></audio>
-            </div>
-
-            <div *ngIf="result()?.chiptune" class="audio-player">
-              <div class="scanlines"></div>
-              <div class="corner-bl"></div>
-              <div class="corner-br"></div>
-              <h4>
-                {{ 'MUSIC_GENERATION.CHIPTUNE_VERSION' | translate }}
-                <div class="title-glow"></div>
-              </h4>
-              <audio
-                controls
-                [src]="result()?.chiptune"
-                (loadstart)="audioLoading.set(true)"
-                (canplaythrough)="onAudioLoad()"
-                (error)="onAudioError()"
-              ></audio>
-            </div>              <div *ngIf="audioLoading()" class="audio-loading">
+              <div *ngIf="result()?.original" class="audio-player">
+                <div class="scanlines"></div>
+                <div class="corner-bl"></div>
+                <div class="corner-br"></div>
+                <h4>
+                  {{ 'MUSIC_GENERATION.ORIGINAL_VERSION' | translate }}
+                  <div class="title-glow"></div>
+                </h4>
+                <media-controller class="media-chrome-dark" noautohide>
+                  <audio
+                    slot="media"
+                    [src]="result()?.original"
+                    (loadstart)="audioLoading.set(true)"
+                    (canplaythrough)="onAudioLoad()"
+                    (error)="onAudioError()"
+                  ></audio>
+                  <media-control-bar>
+                    <media-play-button></media-play-button>
+                    <media-time-range></media-time-range>
+                    <media-time-display></media-time-display>
+                    <media-mute-button></media-mute-button>
+                    <media-volume-range></media-volume-range>
+                  </media-control-bar>
+                </media-controller>
+              </div>
+              <div *ngIf="result()?.chiptune" class="audio-player">
+                <div class="scanlines"></div>
+                <div class="corner-bl"></div>
+                <div class="corner-br"></div>
+                <h4>
+                  {{ 'MUSIC_GENERATION.CHIPTUNE_VERSION' | translate }}
+                  <div class="title-glow"></div>
+                </h4>
+                <media-controller class="media-chrome-dark" noautohide>
+                  <audio
+                    slot="media"
+                    [src]="result()?.chiptune"
+                    (loadstart)="audioLoading.set(true)"
+                    (canplaythrough)="onAudioLoad()"
+                    (error)="onAudioError()"
+                  ></audio>
+                  <media-control-bar>
+                    <media-play-button></media-play-button>
+                    <media-time-range></media-time-range>
+                    <media-time-display></media-time-display>
+                    <media-mute-button></media-mute-button>
+                    <media-volume-range></media-volume-range>
+                  </media-control-bar>
+                </media-controller>
+              </div>
+              <div *ngIf="audioLoading()" class="audio-loading">
                 <div class="loading-spinner"></div>
                 <p>{{ 'MUSIC_GENERATION.LOADING_AUDIO' | translate }}</p>
               </div>
