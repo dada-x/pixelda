@@ -8,11 +8,15 @@ from symusic.core import ScoreSecond, ScoreQuarter
 from services.utils.path import get_cache_file_path
 
 
+def get_music_cache_file_path(file_name: str) -> str:
+    return get_cache_file_path(file_name, subfolder="music")
+
+
 def cache_abc_to_file(abc_notation: str | None) -> str:
     if abc_notation is None:
         raise ValueError("No content to save")
 
-    file_path = get_cache_file_path(f"abc.abc")
+    file_path = get_music_cache_file_path(f"abc.abc")
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(abc_notation)
 
@@ -27,7 +31,7 @@ def to_original_wav(abc_notation: str | None) -> str:
         score = cast(ScoreQuarter, score)
         audio = Synthesizer().render(score, True)
 
-        filePath = get_cache_file_path("original.wav")
+        filePath = get_music_cache_file_path("original.wav")
         dump_wav(filePath, audio, sample_rate=44100, use_int16=True)
         return filePath
     except Exception as e:
@@ -46,7 +50,7 @@ def to_chiptune_wav(abc_notation: str | None) -> str:
             )
         ).render(score, True)
 
-        filePath = get_cache_file_path("chiptune.wav")
+        filePath = get_music_cache_file_path("chiptune.wav")
         dump_wav(filePath, audio, sample_rate=44100, use_int16=True)
         return filePath
     except Exception as e:

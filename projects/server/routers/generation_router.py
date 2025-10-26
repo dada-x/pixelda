@@ -11,9 +11,12 @@ from defs import (
     GenerationResponse,
     ZipFramesRequest,
     ImageEditRequest,
+    MusicGenerationRequest,
+    MusicResponse,
 )
 from services.gen_models.model_wrapper import ModelRouter
 from services.utils.frame import process_split_frames, zip_frames
+from services.utils.path import get_base_url
 
 logger = logging.getLogger(__name__)
 
@@ -138,6 +141,52 @@ async def generate_video(
     except Exception as e:
         logger.error(f"Error generating video: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error generating video: {str(e)}")
+
+
+@router.post("/generate/music", response_model=MusicResponse)
+async def generate_music(
+    request: MusicGenerationRequest, x_api_key: str = Header(None, alias="X-API-Key")
+):
+    logger.info(f"Generating music with prompt: {request.prompt}")
+
+    if x_api_key:
+        request.api_key = x_api_key
+    elif not request.api_key:
+        raise HTTPException(
+            status_code=400,
+            detail="API key is required. Provide it in X-API-Key header or request body.",
+        )
+
+    try:
+        result = await asyncio.to_thread(
+            ModelRouter.generate_abc_music,
+            request,
+        )
+
+        if not result:
+            raise HTTPException(status_code=500, detail="No result returned")
+
+        original, chiptune = result
+
+        base_url = get_base_url()
+        original_url = f"{base_url}/music/{os.path.basename(original)}"
+        chiptune_url = f"{base_url}/music/{os.path.basename(chiptune)}"
+
+        response_task_id = request.task_id
+        if not response_task_id:
+            response_task_id = (
+                f"music_{request.prompt[:20].replace(' ', '_')}_{request.model_type}"
+            )
+
+        logger.info(f"Music generated successfully: {original_url}, {chiptune_url}")
+        return MusicResponse(
+            original=original_url, chiptune=chiptune_url, task_id=response_task_id
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error generating music: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error generating music: {str(e)}")
 
 
 @router.post("/generate/video_split_frames", response_model=FrameSplitResponse)

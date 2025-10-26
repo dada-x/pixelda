@@ -1,4 +1,3 @@
-from pathlib import PurePosixPath
 import os
 import time
 import cv2
@@ -8,10 +7,13 @@ import zipfile
 import tempfile
 import shutil
 from fastapi import HTTPException
-from urllib.parse import unquote, urlparse
 from typing import Optional
 
-from services.utils.path import get_cache_folder
+from services.utils.path import (
+    get_cache_folder,
+    get_base_url,
+    get_cache_file_path_from_url,
+)
 from services.utils.image_tools import remove_solid_background
 from defs import FrameSplitRequest
 
@@ -19,27 +21,13 @@ from defs import FrameSplitRequest
 logger = logging.getLogger(__name__)
 
 
-DEFAULT_BASE_URL = "http://localhost:8000"
 FRAMES_ENDPOINT = "frames"
 FRAME_FILENAME_TEMPLATE = "frame_{:04d}.png"
 FRAME_DIR_TEMPLATE = "{}_{}"
 
 
-def get_base_url() -> str:
-    """Get the base URL from environment or use default"""
-    return os.getenv("BASE_URL", DEFAULT_BASE_URL)
-
-
-def get_cache_path(url: str) -> str:
-    cache_dir = get_cache_folder()
-    os.makedirs(cache_dir, exist_ok=True)
-    file_name = PurePosixPath(unquote(urlparse(url).path)).parts[-1]
-    logger.debug(f"Generated cache path: {os.path.join(cache_dir, file_name)}")
-    return os.path.join(cache_dir, file_name)
-
-
 def get_or_download_file(url: str) -> str:
-    cache_path = get_cache_path(url)
+    cache_path = get_cache_file_path_from_url(url)
 
     if os.path.exists(cache_path):
         logger.info(f"File found in cache: {cache_path}")

@@ -51,7 +51,7 @@ def test_music_gen():
         duration=30,
         genre="Rock",
         tempo="Presto",
-        model_type="doubao",
+        model_type="tongyi",
     )
     print(f"Using model type: {music_request.model_type}")
     music_response = ModelRouter.generate_abc_music(music_request)

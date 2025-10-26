@@ -63,9 +63,13 @@ app.add_middleware(
 frames_dir = os.path.join(get_cache_folder(), "frames")
 os.makedirs(frames_dir, exist_ok=True)
 
+music_dir = os.path.join(get_cache_folder(), "music")
+os.makedirs(music_dir, exist_ok=True)
+
 app.include_router(generation_router)
 
 app.mount("/frames", StaticFiles(directory=frames_dir), name="frames")
+app.mount("/music", StaticFiles(directory=music_dir), name="music")
 
 logger.info("Active endpoints:")
 for route in app.routes:

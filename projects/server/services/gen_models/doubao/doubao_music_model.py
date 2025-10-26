@@ -49,7 +49,7 @@ class DoubaoMusicService(BaseMusicService):
             "model": self.model,
             "max_tokens": self.max_tokens,
             "presence_penalty": 2,
-            "temperature": 1.5,
+            "temperature": 2,
             "messages": [
                 {"role": "system", "content": self.system_prompt},
                 {

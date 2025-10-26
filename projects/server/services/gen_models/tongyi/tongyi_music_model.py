@@ -47,7 +47,7 @@ class TongyiMusicService(BaseMusicService):
             "model": self.model,
             "max_tokens": self.max_tokens,
             "presence_penalty": 2,
-            "temperature": 1.5,
+            "temperature": 1.9,
             "messages": [
                 {"role": "system", "content": self.system_prompt},
                 {
