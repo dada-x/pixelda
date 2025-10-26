@@ -1,3 +1,5 @@
+import os
+from attr import dataclass
 from pydantic import BaseModel
 from typing import Optional, List
 
@@ -12,7 +14,43 @@ DEFAULT_DOUBAO_IMAGE_MODEL = "doubao-seedream-4-0-250828"
 DEFAULT_DOUBAO_VIDEO_MODEL = "doubao-seedance-1-0-pro-250528"
 
 DEFAULT_TEXT_ENGINE_MAX_TOKENS = 2048
+DEFAULT_TONGYI_CHAT_MODEL = "qwen-plus"
 DEFAULT_DOUBAO_CHAT_MODEL = "doubao-seed-1-6-251015"
+
+
+class LazyPrompt:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self._prompt = None
+
+    def __str__(self):
+        if self._prompt is None:
+            with open(self.file_path, "r", encoding="utf-8") as f:
+                instruction = f.read()
+                self._prompt = f"You are a helpful assistant. You can generate creative and original music based on the input requirements given to you, and response strictly with ABC format. Use below instruction for ABC format:\n\n{instruction}"
+        return self._prompt
+
+
+MUSIC_SYSTEM_PROMPT = LazyPrompt(
+    os.path.join(os.path.dirname(__file__), "assets", "abc_notation.md")
+).__str__()
+
+
+MUSIC_GEN_PROMPT = """
+Generate ABC notation of a piano song with ABC format, following requirements: 
+duration: around {duration} seconds.
+genre: {genre}.
+tempo: {tempo}.
+description: {description}.
+return json object with keys:
+- notation(pure ABC notation)
+- comments(any comments)
+"""
+
+
+class TempChatResponse(BaseModel):
+    notation: str
+    comments: str
 
 
 class ImageGenerationRequest(BaseModel):

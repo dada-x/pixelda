@@ -15,6 +15,7 @@ class DoubaoImageService(BaseImageService):
     def __init__(self):
         super().__init__()
         self.base_url = "https://ark.cn-beijing.volces.com/api/v3"
+        self.model = DEFAULT_DOUBAO_IMAGE_MODEL
 
     def _create_client(self, api_key: str) -> Ark:
         return Ark(
@@ -26,7 +27,7 @@ class DoubaoImageService(BaseImageService):
         self, request: ImageGenerationRequest
     ) -> Dict[str, Any]:
         params = {
-            "model": DEFAULT_DOUBAO_IMAGE_MODEL,
+            "model": self.model,
             "prompt": request.prompt,
             "size": request.size.replace("*", "x"),
             "watermark": False,

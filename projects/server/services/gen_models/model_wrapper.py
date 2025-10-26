@@ -16,6 +16,9 @@ from services.gen_models.tongyi.tongyi_video_model import (
     tongyi_gen_animation_task,
     tongyi_wait_animation_task,
 )
+from services.gen_models.tongyi.tongyi_music_model import (
+    tongyi_gen_abc_music,
+)
 
 from services.gen_models.doubao.doubao_image_model import (
     doubao_gen_single_image,
@@ -91,8 +94,13 @@ class ModelRouter:
         if model_type == "doubao":
             logger.info("Routing music generation to Doubao model")
             return ModelRouter._generate_abc_music_doubao(request)
+        elif model_type == "tongyi":
+            logger.info("Routing music generation to Tongyi model")
+            return ModelRouter._generate_abc_music_tongyi(request)
         else:
-            raise ValueError(f"Unsupported model type: {model_type}. Supported: doubao")
+            raise ValueError(
+                f"Unsupported model type: {model_type}. Supported: tongyi, doubao"
+            )
 
     @staticmethod
     def _generate_image_tongyi(request: ImageGenerationRequest) -> str:
@@ -148,6 +156,15 @@ class ModelRouter:
         if not request.api_key:
             raise ValueError("API key is required for Doubao model")
         return doubao_gen_abc_music(request)
+
+    @staticmethod
+    def _generate_abc_music_tongyi(
+        request: MusicGenerationRequest,
+    ) -> tuple[str, str]:
+        """Handle Tongyi music generation"""
+        if not request.api_key:
+            raise ValueError("API key is required for Tongyi model")
+        return tongyi_gen_abc_music(request)
 
 
 def generate_image(request: ImageGenerationRequest) -> str:

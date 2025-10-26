@@ -31,7 +31,7 @@ def to_original_wav(abc_notation: str | None) -> str:
         dump_wav(filePath, audio, sample_rate=44100, use_int16=True)
         return filePath
     except Exception as e:
-        raise ValueError(f"Failed to convert MIDI to chiptune WAV: {str(e)}")
+        raise ValueError(f"Failed to convert ABC to original WAV: {str(e)}")
 
 
 def to_chiptune_wav(abc_notation: str | None) -> str:
@@ -50,4 +50,4 @@ def to_chiptune_wav(abc_notation: str | None) -> str:
         dump_wav(filePath, audio, sample_rate=44100, use_int16=True)
         return filePath
     except Exception as e:
-        raise ValueError(f"Failed to convert MIDI to chiptune WAV: {str(e)}")
+        raise ValueError(f"Failed to convert ABC to chiptune WAV: {str(e)}")

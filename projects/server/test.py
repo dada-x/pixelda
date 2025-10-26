@@ -46,7 +46,7 @@ def test_generation_flow():
 def test_music_gen():
     print("Starting music generation...")
     music_request = MusicGenerationRequest(
-        api_key=os.getenv("DOUBAO_API_KEY", "db57a170-30e9-4312-9029-8a7b2b3abb56"),
+        api_key="--",
         prompt="A fierce rock song expresses rural love.",
         duration=30,
         genre="Rock",
