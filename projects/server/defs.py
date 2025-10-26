@@ -37,7 +37,7 @@ MUSIC_SYSTEM_PROMPT = LazyPrompt(
 
 
 MUSIC_GEN_PROMPT = """
-Generate ABC notation of a piano song with ABC format, following requirements: 
+Generate ABC notation of a piano song with ABC format, following below requirements, and double check the format correctness with documentation: 
 duration: around {duration} seconds.
 genre: {genre}.
 tempo: {tempo}.

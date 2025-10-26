@@ -51,6 +51,23 @@ export interface ZipFramesRequest {
   removebg?: boolean;
 }
 
+export interface MusicGenerationRequest {
+  task_id: string;
+  prompt: string;
+  duration?: number;
+  genre?: string;
+  tempo?: string;
+  seed?: number;
+  model_type?: string;
+}
+
+export interface MusicResponse {
+  original: string;
+  chiptune: string;
+  task_id?: string;
+  error_info?: string;
+}
+
 export interface GenerationResponse {
   url: string;
   task_id?: string;
@@ -92,6 +109,12 @@ export class GenerationService {
   zipFrames(request: ZipFramesRequest): Observable<Blob> {
     return this.http
       .post(`${this.apiUrl}/frames/zip`, request, { responseType: 'blob' })
+      .pipe(catchError(this.handleError));
+  }
+
+  generateMusic(request: MusicGenerationRequest): Observable<MusicResponse> {
+    return this.http
+      .post<MusicResponse>(`${this.apiUrl}/generate/music`, request)
       .pipe(catchError(this.handleError));
   }
 

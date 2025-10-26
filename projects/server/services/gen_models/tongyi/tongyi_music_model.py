@@ -75,7 +75,6 @@ class TongyiMusicService(BaseMusicService):
             response = dashscope.Generation.call(**params)
 
             if isinstance(response, DashScopeGenerationResponse):
-                print(response)
                 notation = TempChatResponse(**json.loads(response.output.text)).notation
 
                 cache_abc_to_file(notation)

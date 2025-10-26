@@ -1,4 +1,212 @@
 <div class="music-container">
-  <h1>Music Generation</h1>
-  <p>TO BE CONTINUED...</p>
+  <h1>{{ 'MUSIC_GENERATION.TITLE' | translate }}</h1>
+
+  <div class="layout-container">
+    <div class="left-column">
+      <div class="generation-form">
+        <div class="form-content">
+          <div class="form-section">
+            <h3>{{ 'MUSIC_GENERATION.MUSIC_DESCRIPTION' | translate }}</h3>
+
+            <div class="form-group">
+              <label for="prompt">{{ 'MUSIC_GENERATION.PROMPT' | translate }}</label>
+              <textarea
+                id="prompt"
+                [(ngModel)]="prompt"
+                (input)="onFormChange()"
+                [placeholder]="'MUSIC_GENERATION.PROMPT_PLACEHOLDER' | translate"
+                rows="4"
+              ></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="duration">{{ 'MUSIC_GENERATION.DURATION' | translate }}</label>
+                <input
+                  type="number"
+                  id="duration"
+                  [(ngModel)]="duration"
+                  (input)="onFormChange()"
+                  min="10"
+                  max="120"
+                  step="5"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="genre">{{ 'MUSIC_GENERATION.GENRE' | translate }}</label>
+                <select id="genre" [(ngModel)]="genre" (change)="onFormChange()">
+                  <option value="pop">{{ 'MUSIC_GENERATION.GENRE_POP' | translate }}</option>
+                  <option value="rock">{{ 'MUSIC_GENERATION.GENRE_ROCK' | translate }}</option>
+                  <option value="jazz">{{ 'MUSIC_GENERATION.GENRE_JAZZ' | translate }}</option>
+                  <option value="classical">
+                    {{ 'MUSIC_GENERATION.GENRE_CLASSICAL' | translate }}
+                  </option>
+                  <option value="blues">{{ 'MUSIC_GENERATION.GENRE_BLUES' | translate }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tempo">{{ 'MUSIC_GENERATION.TEMPO' | translate }}</label>
+                <select id="tempo" [(ngModel)]="tempo" (change)="onFormChange()">
+                  <option value="adagio">{{ 'MUSIC_GENERATION.TEMPO_ADAGIO' | translate }}</option>
+                  <option value="moderato">
+                    {{ 'MUSIC_GENERATION.TEMPO_MODERATO' | translate }}
+                  </option>
+                  <option value="allegro">
+                    {{ 'MUSIC_GENERATION.TEMPO_ALLEGRO' | translate }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="seed">{{ 'MUSIC_GENERATION.SEED' | translate }}</label>
+                <input
+                  type="number"
+                  id="seed"
+                  [(ngModel)]="seed"
+                  (input)="onFormChange()"
+                  [placeholder]="'MUSIC_GENERATION.SEED_PLACEHOLDER' | translate"
+                  min="-1"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              (click)="generateMusic()"
+              [disabled]="loading() || !prompt.trim()"
+              class="generate-btn"
+            >
+              {{
+                loading()
+                  ? ('MUSIC_GENERATION.GENERATING' | translate)
+                  : ('MUSIC_GENERATION.GENERATE_MUSIC' | translate)
+              }}
+            </button>
+            <button (click)="clearForm()" [disabled]="loading()" class="clear-btn">
+              {{ 'MUSIC_GENERATION.RESET' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <div class="preview-box">
+        <h4>{{ 'MUSIC_GENERATION.PREVIEW' | translate }}</h4>
+
+        <div class="preview-loading" *ngIf="loading()">
+          <div class="loading-spinner"></div>
+          <p>{{ 'MUSIC_GENERATION.GENERATING_MUSIC' | translate }}</p>
+          <small>{{ 'MUSIC_GENERATION.GENERATING_MESSAGE' | translate }}</small>
+        </div>
+
+        <div class="preview-placeholder" *ngIf="!loading() && !result()">
+          <div class="preview-icon">🎵</div>
+          <p>{{ 'MUSIC_GENERATION.PREVIEW_PLACEHOLDER' | translate }}</p>
+          <small>{{ 'MUSIC_GENERATION.PREVIEW_MESSAGE' | translate }}</small>
+        </div>
+
+        <div *ngIf="!loading() && result()" class="result-section">
+          <h3>{{ 'MUSIC_GENERATION.GENERATED_MUSIC' | translate }}</h3>
+
+          <div *ngIf="result()?.error_info" class="error-card">
+            <div class="error-icon">❌</div>
+            <div class="error-content">
+              <h4>{{ 'MUSIC_GENERATION.GENERATION_FAILED' | translate }}</h4>
+              <p>{{ result()?.error_info }}</p>
+            </div>
+          </div>
+
+          <div *ngIf="!result()?.error_info" class="success-card">
+            <div class="result-header">
+              <div class="result-info">
+                <p>
+                  <strong>{{ 'MUSIC_GENERATION.TASK_ID' | translate }}:</strong>
+                  {{ result()?.task_id || ('MUSIC_GENERATION.AUTO_GENERATED' | translate) }}
+                </p>
+                <p>
+                  <strong>{{ 'MUSIC_GENERATION.DURATION' | translate }}:</strong> {{ duration }}s
+                </p>
+                <p>
+                  <strong>{{ 'MUSIC_GENERATION.GENRE' | translate }}:</strong> {{ genre }}
+                </p>
+                <p>
+                  <strong>{{ 'MUSIC_GENERATION.TEMPO' | translate }}:</strong> {{ tempo }}
+                </p>
+                <p>
+                  <strong>{{ 'MUSIC_GENERATION.SEED' | translate }}:</strong>
+                  {{ seed || ('MUSIC_GENERATION.AUTO_GENERATED' | translate) }}
+                </p>
+              </div>
+              <div class="result-actions">
+                <button (click)="regenerateMusic()" [disabled]="loading()" class="regenerate-btn">
+                  {{ 'MUSIC_GENERATION.REGENERATE' | translate }}
+                </button>
+                <a
+                  *ngIf="result()?.original"
+                  [href]="result()?.original"
+                  download="original.wav"
+                  class="download-btn"
+                >
+                  {{ 'MUSIC_GENERATION.DOWNLOAD_ORIGINAL' | translate }}
+                </a>
+                <a
+                  *ngIf="result()?.chiptune"
+                  [href]="result()?.chiptune"
+                  download="chiptune.wav"
+                  class="download-btn"
+                >
+                  {{ 'MUSIC_GENERATION.DOWNLOAD_CHIPTUNE' | translate }}
+                </a>
+              </div>
+            </div>
+
+            <div class="audio-display" *ngIf="result()?.original || result()?.chiptune">
+            <div *ngIf="result()?.original" class="audio-player">
+              <div class="scanlines"></div>
+              <div class="corner-bl"></div>
+              <div class="corner-br"></div>
+              <h4>
+                {{ 'MUSIC_GENERATION.ORIGINAL_VERSION' | translate }}
+                <div class="title-glow"></div>
+              </h4>
+              <audio
+                controls
+                [src]="result()?.original"
+                (loadstart)="audioLoading.set(true)"
+                (canplaythrough)="onAudioLoad()"
+                (error)="onAudioError()"
+              ></audio>
+            </div>
+
+            <div *ngIf="result()?.chiptune" class="audio-player">
+              <div class="scanlines"></div>
+              <div class="corner-bl"></div>
+              <div class="corner-br"></div>
+              <h4>
+                {{ 'MUSIC_GENERATION.CHIPTUNE_VERSION' | translate }}
+                <div class="title-glow"></div>
+              </h4>
+              <audio
+                controls
+                [src]="result()?.chiptune"
+                (loadstart)="audioLoading.set(true)"
+                (canplaythrough)="onAudioLoad()"
+                (error)="onAudioError()"
+              ></audio>
+            </div>              <div *ngIf="audioLoading()" class="audio-loading">
+                <div class="loading-spinner"></div>
+                <p>{{ 'MUSIC_GENERATION.LOADING_AUDIO' | translate }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

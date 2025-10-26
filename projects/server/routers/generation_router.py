@@ -147,7 +147,7 @@ async def generate_video(
 async def generate_music(
     request: MusicGenerationRequest, x_api_key: str = Header(None, alias="X-API-Key")
 ):
-    logger.info(f"Generating music with prompt: {request.prompt}")
+    logger.info(f"Generating music...")
 
     if x_api_key:
         request.api_key = x_api_key

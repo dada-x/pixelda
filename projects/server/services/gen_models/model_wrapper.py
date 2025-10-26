@@ -36,11 +36,8 @@ logger = logging.getLogger(__name__)
 
 
 class ModelRouter:
-    """Router class to handle different AI model providers"""
-
     @staticmethod
     def generate_image(request: ImageGenerationRequest) -> str:
-        """Route image generation request to appropriate model"""
         model_type = request.model_type.lower()
 
         if model_type == "tongyi":
@@ -56,7 +53,6 @@ class ModelRouter:
 
     @staticmethod
     def edit_image(request: ImageEditRequest) -> str:
-        """Route image editing request to appropriate model"""
         model_type = request.model_type.lower()
 
         if model_type == "tongyi":
@@ -72,7 +68,6 @@ class ModelRouter:
 
     @staticmethod
     def generate_video(request: VideoGenerationRequest) -> str:
-        """Route video generation request to appropriate model"""
         model_type = request.model_type.lower()
 
         if model_type == "tongyi":
@@ -88,7 +83,6 @@ class ModelRouter:
 
     @staticmethod
     def generate_abc_music(request: MusicGenerationRequest) -> tuple[str, str]:
-        """Route music generation request to appropriate model"""
         model_type = request.model_type.lower()
 
         if model_type == "doubao":
@@ -104,7 +98,6 @@ class ModelRouter:
 
     @staticmethod
     def _generate_image_tongyi(request: ImageGenerationRequest) -> str:
-        """Handle Tongyi image generation (async task-based)"""
         if not request.api_key:
             raise ValueError("API key is required for Tongyi model")
         task = tongyi_gen_single_image_task(request)
@@ -112,14 +105,12 @@ class ModelRouter:
 
     @staticmethod
     def _generate_image_doubao(request: ImageGenerationRequest) -> str:
-        """Handle Doubao image generation (synchronous)"""
         if not request.api_key:
             raise ValueError("API key is required for Doubao model")
         return doubao_gen_single_image(request)
 
     @staticmethod
     def _edit_image_tongyi(request: ImageEditRequest) -> str:
-        """Handle Tongyi image editing (async task-based)"""
         if not request.api_key:
             raise ValueError("API key is required for Tongyi model")
         task = tongyi_edit_single_image_task(request)
@@ -127,14 +118,12 @@ class ModelRouter:
 
     @staticmethod
     def _edit_image_doubao(request: ImageEditRequest) -> str:
-        """Handle Doubao image editing (synchronous)"""
         if not request.api_key:
             raise ValueError("API key is required for Doubao model")
         return doubao_edit_single_image(request)
 
     @staticmethod
     def _generate_video_tongyi(request: VideoGenerationRequest) -> str:
-        """Handle Tongyi video generation (async task-based)"""
         if not request.api_key:
             raise ValueError("API key is required for Tongyi model")
         task = tongyi_gen_animation_task(request)
@@ -142,7 +131,6 @@ class ModelRouter:
 
     @staticmethod
     def _generate_video_doubao(request: VideoGenerationRequest) -> str:
-        """Handle Doubao video generation (synchronous)"""
         if not request.api_key:
             raise ValueError("API key is required for Doubao model")
         task = doubao_gen_animation_task(request)
@@ -152,7 +140,6 @@ class ModelRouter:
     def _generate_abc_music_doubao(
         request: MusicGenerationRequest,
     ) -> tuple[str, str]:
-        """Handle Doubao music generation"""
         if not request.api_key:
             raise ValueError("API key is required for Doubao model")
         return doubao_gen_abc_music(request)
@@ -161,27 +148,22 @@ class ModelRouter:
     def _generate_abc_music_tongyi(
         request: MusicGenerationRequest,
     ) -> tuple[str, str]:
-        """Handle Tongyi music generation"""
         if not request.api_key:
             raise ValueError("API key is required for Tongyi model")
         return tongyi_gen_abc_music(request)
 
 
 def generate_image(request: ImageGenerationRequest) -> str:
-    """Generate image using model router"""
     return ModelRouter.generate_image(request)
 
 
 def edit_image(request: ImageEditRequest) -> str:
-    """Edit image using model router"""
     return ModelRouter.edit_image(request)
 
 
 def generate_video(request: VideoGenerationRequest) -> str:
-    """Generate video using model router"""
     return ModelRouter.generate_video(request)
 
 
 def generate_music(request: MusicGenerationRequest) -> tuple[str, str]:
-    """Generate music using model router"""
     return ModelRouter.generate_abc_music(request)

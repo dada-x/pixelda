@@ -5,9 +5,11 @@ import mimetypes
 from pathlib import PurePosixPath
 from urllib.parse import unquote, urlparse
 
+DEFAULT_BASE_URL = "http://localhost:8000"
+
 
 def get_project_root() -> str:
-    return os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
 
 
 def get_cache_folder() -> str:
@@ -49,9 +51,5 @@ def encode_file(file_path: str) -> str:
     return f"data:{mime_type};base64,{encoded_string}"
 
 
-DEFAULT_BASE_URL = "http://localhost:8000"
-
-
 def get_base_url() -> str:
-    """Get the base URL from environment or use default"""
     return os.getenv("BASE_URL", DEFAULT_BASE_URL)
