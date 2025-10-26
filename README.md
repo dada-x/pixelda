@@ -62,7 +62,7 @@ PiXelDa is an AI-powered platform designed for generating pixel-art game assets,
 
   #### Generate custom background music and soundtracks for your pixel art games.
 
-  ![Music Generation](assets/intro/zh/music%20generation.jpeg)
+  ![Music Generation](assets/intro/en/music%20generation.jpeg)
 
   #### Example prompts
 
