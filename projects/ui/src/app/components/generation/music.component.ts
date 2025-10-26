@@ -142,6 +142,58 @@ export class MusicComponent implements OnInit, OnDestroy {
     console.error('Failed to load generated audio');
   }
 
+  async downloadFile(url: string, filename: string) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(() => {
+        window.URL.revokeObjectURL(downloadUrl);
+      }, 100);
+    } catch (error) {
+      console.error('Download failed:', error);
+      window.open(url, '_blank');
+    }
+  }
+
+  downloadOriginal() {
+    if (this.result()?.original) {
+      const filename = this.extractFilename(this.result()!.original) || 'original.wav';
+      this.downloadFile(this.result()!.original, filename);
+    }
+  }
+
+  downloadChiptune() {
+    if (this.result()?.chiptune) {
+      const filename = this.extractFilename(this.result()!.chiptune) || 'chiptune.wav';
+      this.downloadFile(this.result()!.chiptune, filename);
+    }
+  }
+
+  private extractFilename(url: string): string | null {
+    try {
+      const urlObj = new URL(url);
+      const pathname = urlObj.pathname;
+      const filename = pathname.split('/').pop();
+      return filename || null;
+    } catch (error) {
+      const parts = url.split('/');
+      return parts[parts.length - 1] || null;
+    }
+  }
+
   private storeGenerationToHistory(result: MusicResponse, prompt: string) {
     const historyItem = {
       id: result.task_id || `music_${Date.now()}`,

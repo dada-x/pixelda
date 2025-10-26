@@ -147,22 +147,20 @@
                 <button (click)="regenerateMusic()" [disabled]="loading()" class="regenerate-btn">
                   {{ 'MUSIC_GENERATION.REGENERATE' | translate }}
                 </button>
-                <a
+                <button
                   *ngIf="result()?.original"
-                  [href]="result()?.original"
-                  download="original.wav"
+                  (click)="downloadOriginal()"
                   class="download-btn"
                 >
                   {{ 'MUSIC_GENERATION.DOWNLOAD_ORIGINAL' | translate }}
-                </a>
-                <a
+                </button>
+                <button
                   *ngIf="result()?.chiptune"
-                  [href]="result()?.chiptune"
-                  download="chiptune.wav"
+                  (click)="downloadChiptune()"
                   class="download-btn"
                 >
                   {{ 'MUSIC_GENERATION.DOWNLOAD_CHIPTUNE' | translate }}
-                </a>
+                </button>
               </div>
             </div>
 
