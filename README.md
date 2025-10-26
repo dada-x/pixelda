@@ -58,6 +58,16 @@ PiXelDa is an AI-powered platform designed for generating pixel-art game assets,
 
   #### Remove backgrounds from frames using rembg.
 
+- ### 🎵 Music Generation
+
+  #### Generate custom background music and soundtracks for your pixel art games.
+
+  ![Music Generation](assets/intro/zh/music%20generation.jpeg)
+
+  #### Example prompts
+
+  A cheerful piece of music describing a little kitten going to the litter box to poop, starting with an exciting melody and ending with a relaxed melody.
+
 - ### 💾 Caching and History
 
   #### Efficient caching of generated images and animations.
@@ -153,6 +163,14 @@ PiXelDa is an AI-powered platform designed for generating pixel-art game assets,
 | ------- | ------- |
 | Angular | 20      |
 | RxJS    | Latest  |
+
+### AI Models
+
+| Functionality                                   | Provider       | Version                                          |
+| ----------------------------------------------- | -------------- | ------------------------------------------------ |
+| Image Generation                                | Tongyi, Doubao | wan2.2-t2i-flash, doubao-seedream-4-0-250828     |
+| Video Generation                                | Tongyi, Doubao | wan2.2-i2v-flash, doubao-seedance-1-0-pro-250528 |
+| Music Generation based on Chat(Max Tokens:2048) | Tongyi, Doubao | qwen-plus, doubao-seed-1-6-251015                |
 
 <br>
 
