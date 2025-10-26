@@ -45,7 +45,7 @@
         "COPYRIGHT": "© 2025 PixelDA. Built with ❤️ for indie game developers."
     },
     "IMAGE_GENERATION": {
-        "TITLE": "Image Generation",
+        "TITLE": "🎨 Image Generation",
         "GENERATION_SETTINGS": "⚙️ Generation Settings",
         "GENERATE_NEW": "🎨 Generate New",
         "EDIT_EXISTING": "✏️ Edit Existing",
@@ -122,7 +122,7 @@
         "TEMPO_ALLEGRO": "Allegro",
         "SEED": "Seed (optional)",
         "SEED_PLACEHOLDER": "Random seed for reproducible results",
-        "GENERATE_MUSIC": "🎵 Generate Music",
+        "GENERATE_MUSIC": "Generate Music",
         "GENERATING": "Generating...",
         "RESET": "Reset",
         "PREVIEW": "🎧 Preview",
@@ -157,7 +157,7 @@
         "GENERATE_ANIMATION": "Generate Animation",
         "GENERATING": "Generating...",
         "RESET": "Reset",
-        "ANIMATION_PREVIEW": "🎥 Animation Preview",
+        "ANIMATION_PREVIEW": "🎥 Preview",
         "GENERATING_ANIMATION": "Generating your animation...",
         "GENERATING_MESSAGE": "This may take a few moments",
         "PREVIEW_PLACEHOLDER": "Your generated animation will appear here",
