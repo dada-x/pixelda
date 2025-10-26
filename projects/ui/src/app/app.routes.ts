@@ -4,7 +4,7 @@ import { HomeComponent } from './components/home.component';
 import { ImageComponent } from './components/generation/image.component';
 import { AnimationComponent } from './components/generation/animation.component';
 import { SpriteSheetComponent } from './components/generation/sprite-sheet.component';
-import { SoundComponent } from './components/generation/sound.component';
+import { MusicComponent } from './components/generation/music.component';
 import { HistoryComponent } from './components/common/history.component';
 import { SettingsComponent } from './components/common/settings.component';
 
@@ -21,7 +21,7 @@ export const routes: Routes = [
           { path: 'image', component: ImageComponent },
           { path: 'animation', component: AnimationComponent },
           { path: 'sprite-sheet', component: SpriteSheetComponent },
-          { path: 'sound', component: SoundComponent },
+          { path: 'music', component: MusicComponent },
         ],
       },
       { path: 'history', component: HistoryComponent },

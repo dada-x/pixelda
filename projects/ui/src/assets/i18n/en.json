@@ -5,7 +5,7 @@
         "IMAGE": "Image",
         "ANIMATION": "Animation",
         "SPRITES": "Sprites",
-        "SOUND": "Sound",
+        "MUSIC": "Music",
         "HISTORY": "History",
         "SETTINGS": "Settings"
     },

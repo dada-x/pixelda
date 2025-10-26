@@ -23,7 +23,7 @@ export class LayoutComponent {
         { label: 'NAVIGATION.IMAGE', icon: 'image', link: '/generate/image' },
         { label: 'NAVIGATION.ANIMATION', icon: 'animation', link: '/generate/animation' },
         { label: 'NAVIGATION.SPRITES', icon: 'sprite-sheet', link: '/generate/sprite-sheet' },
-        { label: 'NAVIGATION.SOUND', icon: 'sound', link: '/generate/sound' },
+        { label: 'NAVIGATION.MUSIC', icon: 'music', link: '/generate/music' },
       ],
     },
     { label: 'NAVIGATION.HISTORY', icon: 'clock', link: '/history' },
