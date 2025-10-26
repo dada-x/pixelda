@@ -105,6 +105,7 @@
     },
     "MUSIC_GENERATION": {
         "TITLE": "🎵 Music Generation",
+        "GENERATION_SETTINGS": "⚙️ Generation Settings",
         "MUSIC_DESCRIPTION": "Music Description",
         "PROMPT": "Music Prompt",
         "PROMPT_PLACEHOLDER": "Describe the music you want to generate...",

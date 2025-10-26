@@ -4,12 +4,12 @@
   <div class="layout-container">
     <div class="left-column">
       <div class="generation-form">
+        <h4>{{ 'MUSIC_GENERATION.GENERATION_SETTINGS' | translate }}</h4>
         <div class="form-content">
           <div class="form-section">
-            <h3>{{ 'MUSIC_GENERATION.MUSIC_DESCRIPTION' | translate }}</h3>
+            <h3>{{ 'MUSIC_GENERATION.PROMPT' | translate }}</h3>
 
             <div class="form-group">
-              <label for="prompt">{{ 'MUSIC_GENERATION.PROMPT' | translate }}</label>
               <textarea
                 id="prompt"
                 [(ngModel)]="prompt"

@@ -335,10 +335,19 @@ h1 {
 }
 
 .audio-player {
+  position: relative;
   background: rgba(26, 42, 58, 0.5);
   border: 1px solid #637ab9;
   border-radius: 6px;
   padding: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  &:hover {
+    border-color: #a8fbd3;
+    box-shadow: 0 0 10px rgba(168, 251, 211, 0.2);
+    transform: translateY(-2px);
+  }
 
   h4 {
     color: #a8fbd3;
@@ -355,6 +364,58 @@ h1 {
     height: 40px;
     background: #1a1a2e;
     border-radius: 4px;
+  }
+
+  .scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(168, 251, 211, 0.03) 2px,
+      rgba(168, 251, 211, 0.03) 4px
+    );
+    pointer-events: none;
+    border-radius: 6px;
+    animation: scanlines 0.1s linear infinite;
+  }
+
+  .corner-bl,
+  .corner-br {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #a8fbd3;
+    pointer-events: none;
+  }
+
+  .corner-bl {
+    bottom: 4px;
+    left: 4px;
+    border-right: none;
+    border-top: none;
+  }
+
+  .corner-br {
+    bottom: 4px;
+    right: 4px;
+    border-left: none;
+    border-top: none;
+  }
+
+  .title-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #a8fbd3, transparent);
+    opacity: 0.8;
+    animation: glow 2s ease-in-out infinite alternate;
   }
 }
 
@@ -390,6 +451,26 @@ h1 {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0.4;
+    transform: scaleX(0.8);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scaleX(1.2);
+  }
+}
+
+@keyframes scanlines {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 4px;
   }
 }
 
@@ -603,10 +684,11 @@ h1 {
 .right-column {
   .result-section {
     flex: 1;
-    margin-top: 0;
-    border: none;
-    box-shadow: none;
-    background: transparent;
+    margin-top: 16px;
+    border: 2px solid #a8fbd3;
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px #637ab9, inset 0 0 0 1px #a8fbd3;
+    background: #1a1a2e;
     padding: 16px;
     overflow-y: auto;
     display: flex;

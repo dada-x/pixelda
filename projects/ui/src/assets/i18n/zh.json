@@ -105,6 +105,7 @@
     },
     "MUSIC_GENERATION": {
         "TITLE": "🎵 音乐生成",
+        "GENERATION_SETTINGS": "⚙️ 生成设置",
         "MUSIC_DESCRIPTION": "音乐描述",
         "PROMPT": "音乐提示",
         "PROMPT_PLACEHOLDER": "描述您要生成的音乐...",
