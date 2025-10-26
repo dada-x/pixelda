@@ -82,7 +82,6 @@ export class SpriteSheetComponent implements OnInit, OnDestroy {
         this.toTime = formData.toTime || 10.0;
         this.splitCount = formData.splitCount || 10;
       } catch (error) {
-        console.error('Error loading saved sprite sheet form data:', error);
         localStorage.removeItem('pixelda_sprite_sheet_form');
       }
     }
@@ -238,7 +237,6 @@ export class SpriteSheetComponent implements OnInit, OnDestroy {
       error: (error) => {
         this.isDownloading.set(false);
         this.errorMessage.set(error.message || 'SPRITE_SHEET.ERROR_DOWNLOAD_FAILED');
-        console.error('Download error:', error);
       },
     });
   }

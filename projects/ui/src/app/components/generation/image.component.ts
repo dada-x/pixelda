@@ -155,7 +155,6 @@ export class ImageComponent implements OnInit, OnDestroy {
         this.imageUrl = formData.imageUrl || '';
         this.editPrompt = formData.editPrompt || '';
       } catch (error) {
-        console.error('Error loading saved form data:', error);
         localStorage.removeItem('pixelda_image_form');
       }
     }
@@ -310,7 +309,6 @@ export class ImageComponent implements OnInit, OnDestroy {
 
   onImageError() {
     this.imageLoading.set(false);
-    console.error('Failed to load generated image');
   }
 
   private storeGenerationToHistory(result: GenerationResponse, prompt: string) {
@@ -331,7 +329,6 @@ export class ImageComponent implements OnInit, OnDestroy {
       try {
         history = JSON.parse(existingHistory);
       } catch (error) {
-        console.error('Error parsing generation history:', error);
         history = [];
       }
     }

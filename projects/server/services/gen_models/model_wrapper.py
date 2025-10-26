@@ -4,7 +4,6 @@ from defs import (
     VideoGenerationRequest,
     ImageEditRequest,
     MusicGenerationRequest,
-    GenerationResponse,
 )
 
 from services.gen_models.tongyi.tongyi_image_model import (

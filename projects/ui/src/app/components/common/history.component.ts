@@ -46,7 +46,6 @@ export class HistoryComponent implements OnInit {
         this.historyItems = JSON.parse(storedHistory);
         this.cleanupOldRecords();
       } catch (error) {
-        console.error('Error parsing generation history:', error);
         this.historyItems = [];
       }
     } else {
@@ -138,17 +137,13 @@ export class HistoryComponent implements OnInit {
     try {
       await navigator.clipboard.writeText(url);
     } catch (error) {
-      console.error('Failed to copy URL:', error);
-
       const textArea = document.createElement('textarea');
       textArea.value = url;
       document.body.appendChild(textArea);
       textArea.select();
       try {
         document.execCommand('copy');
-      } catch (fallbackError) {
-        console.error('Fallback copy failed:', fallbackError);
-      }
+      } catch (fallbackError) {}
       document.body.removeChild(textArea);
     }
   }

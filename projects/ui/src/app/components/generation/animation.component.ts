@@ -80,7 +80,6 @@ export class AnimationComponent implements OnInit, OnDestroy {
         this.isLocalImage.set(this.imageUrl().startsWith('data:'));
         this.displayImageUrl.set(this.isLocalImage() ? this.fileName() : this.imageUrl());
       } catch (error) {
-        console.error('Error loading saved animation form data:', error);
         localStorage.removeItem('pixelda_animation_form');
       }
     }
@@ -171,7 +170,6 @@ export class AnimationComponent implements OnInit, OnDestroy {
       try {
         history = JSON.parse(existingHistory);
       } catch (error) {
-        console.error('Error parsing generation history:', error);
         history = [];
       }
     }

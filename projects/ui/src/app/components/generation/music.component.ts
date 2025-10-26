@@ -66,7 +66,6 @@ export class MusicComponent implements OnInit, OnDestroy {
         this.tempo = formData.tempo || 'moderato';
         this.seed = formData.seed;
       } catch (error) {
-        console.error('Error loading saved form data:', error);
         localStorage.removeItem('pixelda_music_form');
       }
     }
@@ -139,7 +138,6 @@ export class MusicComponent implements OnInit, OnDestroy {
 
   onAudioError() {
     this.audioLoading.set(false);
-    console.error('Failed to load generated audio');
   }
 
   async downloadFile(url: string, filename: string) {
@@ -163,7 +161,6 @@ export class MusicComponent implements OnInit, OnDestroy {
         window.URL.revokeObjectURL(downloadUrl);
       }, 100);
     } catch (error) {
-      console.error('Download failed:', error);
       window.open(url, '_blank');
     }
   }
@@ -215,7 +212,6 @@ export class MusicComponent implements OnInit, OnDestroy {
       try {
         history = JSON.parse(existingHistory);
       } catch (error) {
-        console.error('Error parsing generation history:', error);
         history = [];
       }
     }

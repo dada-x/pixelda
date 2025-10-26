@@ -35,9 +35,8 @@ MUSIC_SYSTEM_PROMPT = LazyPrompt(
     os.path.join(os.path.dirname(__file__), "assets", "abc_notation.md")
 ).__str__()
 
-
 MUSIC_GEN_PROMPT = """
-Generate ABC notation of a piano song with ABC format, following below requirements, and double check the format correctness with documentation: 
+Generate ABC notation of a piano song with ABC format, following below requirements, and double check the format correctness with documentation:
 duration: around {duration} seconds.
 genre: {genre}.
 tempo: {tempo}.

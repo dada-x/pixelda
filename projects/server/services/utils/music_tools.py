@@ -1,9 +1,8 @@
 import os
 from typing import cast
-import numpy as np
 import music21
 from symusic import Score, Synthesizer, dump_wav
-from symusic.core import ScoreSecond, ScoreQuarter
+from symusic.core import ScoreQuarter
 
 from services.utils.path import get_cache_file_path
 
@@ -13,10 +12,9 @@ def get_music_cache_file_path(file_name: str) -> str:
 
 
 def cache_abc_to_file(abc_notation: str) -> str:
-    file_path = get_music_cache_file_path(f"abc.abc")
+    file_path = get_music_cache_file_path("abc.abc")
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(abc_notation)
-
     return abc_notation
 
 
