@@ -152,8 +152,8 @@
               <h4>{{ 'IMAGE_GENERATION.FINAL_PROMPT' | translate }}</h4>
               <textarea
                 class="final-prompt-editor"
-                [(ngModel)]="finalPrompt"
-                (input)="onFinalPromptChange()"
+                [ngModel]="finalPrompt()"
+                (ngModelChange)="finalPrompt.set($event); onFinalPromptChange()"
                 [placeholder]="'IMAGE_GENERATION.FINAL_PROMPT_PLACEHOLDER' | translate"
               ></textarea>
             </div>
@@ -226,8 +226,8 @@
             <h4>{{ 'IMAGE_GENERATION.FINAL_PROMPT' | translate }}</h4>
             <textarea
               class="final-prompt-editor"
-              [(ngModel)]="finalPrompt"
-              (input)="onFinalPromptChange()"
+              [ngModel]="finalPrompt()"
+              (ngModelChange)="finalPrompt.set($event); onFinalPromptChange()"
               [placeholder]="'IMAGE_GENERATION.FINAL_PROMPT_PLACEHOLDER' | translate"
             ></textarea>
           </div>
