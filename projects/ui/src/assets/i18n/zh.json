@@ -31,7 +31,12 @@
         "LANGUAGE": "语言",
         "SELECT_LANGUAGE": "选择语言",
         "ENGLISH": "英语",
-        "CHINESE": "中文"
+        "CHINESE": "中文",
+        "DOUBAO_PRICE_TOOLTIP": "图像生成 (doubao-seedream-4-0-250828): 0.2 元/图像\n视频生成(默认5秒) (doubao-seedance-1-0-pro-250528): 0.73 元/480p, 1.64 元/720p\n基于聊天的音乐生成(Max Tokens:2k) (doubao-seed-1-6-251015): 0.0008 元/输入k-token, 0.008 元/输出k-token",
+        "TONGYI_PRICE_TOOLTIP": "图像生成 (wan2.5-t2i-preview): 0.2 元/图像\n视频生成(默认5秒) (wan2.5-i2v-preview): 1.5 元/480p, 3 元/720p\n基于聊天的音乐生成(Max Tokens:2k) (qwen-plus): 0.0008 元/输入k-token, 0.008 元/输出k-token",
+        "IMAGE_GENERATION_SHORT": "图像生成",
+        "VIDEO_GENERATION_SHORT": "视频生成(默认5秒)",
+        "MUSIC_GENERATION_SHORT": "基于聊天的音乐生成(Max Tokens:2k)"
     },
     "HOME": {
         "TITLE": "PiXelDa",

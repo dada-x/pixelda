@@ -31,7 +31,12 @@
         "LANGUAGE": "Language",
         "SELECT_LANGUAGE": "Select Language",
         "ENGLISH": "English",
-        "CHINESE": "Chinese"
+        "CHINESE": "Chinese",
+        "DOUBAO_PRICE_TOOLTIP": "Image Generation (doubao-seedream-4-0-250828): 0.2 RMB/image\nVideo Generation(5S by Default) (doubao-seedance-1-0-pro-250528): 0.73 RMB/480p, 1.64 RMB/720p\nMusic Generation based on Chat(Max Tokens:2k) (doubao-seed-1-6-251015): 0.0008 RMB/input k-token, 0.008 RMB/output k-token",
+        "TONGYI_PRICE_TOOLTIP": "Image Generation (wan2.5-t2i-preview): 0.2 RMB/image\nVideo Generation(5S by Default) (wan2.5-i2v-preview): 1.5 RMB/480p, 3 RMB/720p\nMusic Generation based on Chat(Max Tokens:2k) (qwen-plus): 0.0008 RMB/input k-token, 0.008 RMB/output k-token",
+        "IMAGE_GENERATION_SHORT": "Image Generation",
+        "VIDEO_GENERATION_SHORT": "Video Generation(5S by Default)",
+        "MUSIC_GENERATION_SHORT": "Music Generation based on Chat(Max Tokens:2k)"
     },
     "HOME": {
         "TITLE": "PiXelDa",

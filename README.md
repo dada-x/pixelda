@@ -166,11 +166,17 @@ PiXelDa is an AI-powered platform designed for generating pixel-art game assets,
 
 ### AI Models
 
-| Functionality                                   | Provider       | Version                                          |
-| ----------------------------------------------- | -------------- | ------------------------------------------------ |
-| Image Generation                                | Tongyi, Doubao | wan2.2-t2i-flash, doubao-seedream-4-0-250828     |
-| Video Generation                                | Tongyi, Doubao | wan2.2-i2v-flash, doubao-seedance-1-0-pro-250528 |
-| Music Generation based on Chat(Max Tokens:2048) | Tongyi, Doubao | qwen-plus, doubao-seed-1-6-251015                |
+| Functionality                                 | Provider | Version                        | Price                                              |
+| --------------------------------------------- | -------- | ------------------------------ | -------------------------------------------------- |
+| Image Generation                              | Doubao   | doubao-seedream-4-0-250828     | 0.2 RMB/image                                      |
+| Video Generation(5S by Default)               | Doubao   | doubao-seedance-1-0-pro-250528 | 0.73 RMB/480p, 1.64 RMB/720p                       |
+| Music Generation based on Chat(Max Tokens:2k) | Doubao   | doubao-seed-1-6-251015         | 0.0008 RMB/input k-token, 0.008 RMB/output k-token |
+
+| Functionality                                 | Provider | Version            | Price                                              |
+| --------------------------------------------- | -------- | ------------------ | -------------------------------------------------- |
+| Image Generation                              | Tongyi   | wan2.5-t2i-preview | 0.2 RMB/image                                      |
+| Video Generation(5S by Default)               | Tongyi   | wan2.5-i2v-preview | 1.5 RMB/480p, 3 RMB/720p                           |
+| Music Generation based on Chat(Max Tokens:2k) | Tongyi   | qwen-plus          | 0.0008 RMB/input k-token, 0.008 RMB/output k-token |
 
 <br>
 

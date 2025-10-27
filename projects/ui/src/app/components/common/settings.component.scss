@@ -10,7 +10,6 @@
   padding: 16px;
   border-radius: 8px;
   position: relative;
-  overflow: hidden;
 }
 
 h2 {
@@ -267,6 +266,73 @@ label {
   border: 1px solid #a8fbd3;
   position: relative;
   z-index: 1;
+}
+
+.price-icon {
+  cursor: help;
+  font-size: var(--font-size-lg);
+  color: #a8fbd3;
+  margin-left: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.1);
+    color: #4ecdc4;
+  }
+
+  &:hover + .price-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.price-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e;
+  color: #a8fbd3;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 999;
+  border: 1px solid #637ab9;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  max-width: 400px;
+  min-width: 850px;
+}
+
+.price-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--font-size-xs);
+
+  th,
+  td {
+    padding: 4px 6px;
+    text-align: left;
+    border-bottom: 1px solid #637ab9;
+  }
+
+  th {
+    background: rgba(99, 123, 185, 0.2);
+    font-weight: 500;
+    color: #a8fbd3;
+  }
+
+  td {
+    color: #e5e7eb;
+  }
+
+  tr:last-child th,
+  tr:last-child td {
+    border-bottom: none;
+  }
 }
 
 .section-header label:first-child {

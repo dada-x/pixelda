@@ -24,6 +24,28 @@
       <div class="label-group">
         <label for="doubaoApiKey">{{ 'SETTINGS.DOUBAO_API_KEY' | translate }}</label>
         <span class="recommended-badge">{{ 'SETTINGS.RECOMMENDED' | translate }}</span>
+        <span class="price-icon">💰</span>
+        <div class="price-tooltip">
+          <table class="price-table">
+            <thead>
+              <tr>
+                <th>{{ 'SETTINGS.IMAGE_GENERATION_SHORT' | translate }}</th>
+                <th>doubao-seedream-4-0-250828</th>
+                <th>0.2 RMB/image</th>
+              </tr>
+              <tr>
+                <th>{{ 'SETTINGS.VIDEO_GENERATION_SHORT' | translate }}</th>
+                <th>doubao-seedance-1-0-pro-250528</th>
+                <th>0.73 RMB/480p, 1.64 RMB/720p</th>
+              </tr>
+              <tr>
+                <th>{{ 'SETTINGS.MUSIC_GENERATION_SHORT' | translate }}</th>
+                <th>doubao-seed-1-6-251015</th>
+                <th>0.0008 RMB/input k-token, 0.008 RMB/output k-token</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
       </div>
       <label class="checkbox-label">
         <input
@@ -78,7 +100,31 @@
 
   <div class="setting-group">
     <div class="section-header">
-      <label for="apiKey">{{ 'SETTINGS.TONGYI_API_KEY' | translate }}</label>
+      <div class="label-group">
+        <label for="apiKey">{{ 'SETTINGS.TONGYI_API_KEY' | translate }}</label>
+        <span class="price-icon">💰</span>
+        <div class="price-tooltip">
+          <table class="price-table">
+            <thead>
+              <tr>
+                <th>{{ 'SETTINGS.IMAGE_GENERATION_SHORT' | translate }}</th>
+                <th>wan2.5-t2i-preview</th>
+                <th>0.2 RMB/image</th>
+              </tr>
+              <tr>
+                <th>{{ 'SETTINGS.VIDEO_GENERATION_SHORT' | translate }}</th>
+                <th>wan2.5-i2v-preview</th>
+                <th>1.5 RMB/480p, 3 RMB/720p</th>
+              </tr>
+              <tr>
+                <th>{{ 'SETTINGS.MUSIC_GENERATION_SHORT' | translate }}</th>
+                <th>qwen-plus</th>
+                <th>0.0008 RMB/input k-token, 0.008 RMB/output k-token</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
       <label class="checkbox-label">
         <input
           type="checkbox"
