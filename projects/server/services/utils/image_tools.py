@@ -15,12 +15,12 @@ os.makedirs(cache_dir, exist_ok=True)
 
 def remove_solid_background(image_path: str, file_name: str) -> str:
     input = cv2.imread(image_path)
-    session = new_session("isnet-anime")
+    session = new_session("u2net")
     if input is None:
         raise ValueError(f"Could not load image from path: {image_path}")
 
     output_path = os.path.join(cache_dir, file_name)
-    output = remove(input, session=session, alpha_matting=True)
+    output = remove(input, session=session, alpha_matting=False)
 
     if isinstance(output, np.ndarray):
         output_array = output
