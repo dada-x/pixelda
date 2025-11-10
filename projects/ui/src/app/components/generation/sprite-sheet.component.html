@@ -281,22 +281,49 @@
           />
         </div>
 
-        <div class="download-info">
-          <p>
-            <strong>{{ 'SPRITE_SHEET.FRAMES_TO_DOWNLOAD' | translate }}</strong>
-            {{ selectedFramesCount }}
-          </p>
+        <div class="option-section">
+          <h4>{{ 'SPRITE_SHEET.OUTPUT_TYPE' | translate }}</h4>
+          <div class="radio-group" (change)="onOutputTypeChange()">
+            <label class="radio-container">
+              <input type="radio" value="zip" [(ngModel)]="outputType" name="outputType" />
+              <span class="radio-checkmark"></span>
+              <div class="radio-content">
+                <div class="radio-title">{{ 'SPRITE_SHEET.DOWNLOAD_ZIP' | translate }}</div>
+                <div class="radio-description">
+                  {{ 'SPRITE_SHEET.DOWNLOAD_ZIP_DESC' | translate }}
+                </div>
+              </div>
+            </label>
+            <label class="radio-container">
+              <input type="radio" value="sprite" [(ngModel)]="outputType" name="outputType" />
+              <span class="radio-checkmark"></span>
+              <div class="radio-content">
+                <div class="radio-title">{{ 'SPRITE_SHEET.DOWNLOAD_SPRITE' | translate }}</div>
+                <div class="radio-description">
+                  {{ 'SPRITE_SHEET.DOWNLOAD_SPRITE_DESC' | translate }}
+                </div>
+              </div>
+            </label>
+          </div>
         </div>
 
         <div class="option-section">
           <h4>{{ 'SPRITE_SHEET.PROCESSING_OPTIONS' | translate }}</h4>
-          <label class="checkbox-container">
-            <input type="checkbox" [(ngModel)]="removeBackground" id="removeBackground" />
+          <label class="checkbox-container" [class.disabled]="outputType !== 'sprite'">
+            <input
+              type="checkbox"
+              [(ngModel)]="removeBackground"
+              id="removeBackground"
+              [disabled]="outputType !== 'sprite'"
+            />
             <span class="checkmark"></span>
             <div class="option-content">
               <div class="option-title">{{ 'SPRITE_SHEET.REMOVE_BACKGROUND' | translate }}</div>
               <div class="option-description">
                 {{ 'SPRITE_SHEET.REMOVE_BACKGROUND_DESC' | translate }}
+                <span *ngIf="outputType !== 'sprite'" class="option-note">{{
+                  'SPRITE_SHEET.REMOVE_BACKGROUND_SPRITE_ONLY' | translate
+                }}</span>
               </div>
             </div>
           </label>

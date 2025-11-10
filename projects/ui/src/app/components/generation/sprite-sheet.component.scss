@@ -1109,6 +1109,105 @@ h1 {
       font-size: var(--font-size-sm);
       line-height: 1.4;
       opacity: 0.9;
+
+      .option-note {
+        display: block;
+        color: #ff6b6b;
+        font-style: italic;
+        margin-top: 4px;
+      }
+    }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    input[type='checkbox'] {
+      cursor: not-allowed;
+    }
+
+    .checkmark {
+      cursor: not-allowed;
+    }
+
+    .option-content {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(26, 42, 58, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+
+  &:hover {
+    border-color: #a8fbd3;
+    background: rgba(168, 251, 211, 0.05);
+  }
+
+  input[type='radio'] {
+    display: none;
+  }
+
+  .radio-checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #637ab9;
+    border-radius: 50%;
+    background: #1a1a2e;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      background: #a8fbd3;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+  }
+
+  input[type='radio']:checked + .radio-checkmark::after {
+    opacity: 1;
+  }
+
+  .radio-content {
+    flex: 1;
+
+    .radio-title {
+      color: #a8fbd3;
+      font-size: var(--font-size-md);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .radio-description {
+      color: #e5e7eb;
+      font-size: var(--font-size-sm);
+      line-height: 1.4;
+      opacity: 0.9;
     }
   }
 }

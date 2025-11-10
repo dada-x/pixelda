@@ -49,6 +49,7 @@ export interface ZipFramesRequest {
   name: string;
   frame_urls: string[];
   removebg?: boolean;
+  output_type?: string;
 }
 
 export interface MusicGenerationRequest {

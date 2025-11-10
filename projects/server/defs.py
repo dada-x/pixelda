@@ -99,6 +99,7 @@ class ZipFramesRequest(BaseModel):
     name: str
     frame_urls: List[str]
     removebg: bool = False
+    output_type: str = "zip"
 
 
 class FrameSplitResponse(BaseModel):

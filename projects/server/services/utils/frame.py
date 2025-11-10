@@ -14,7 +14,7 @@ from services.utils.path import (
     get_base_url,
     get_cache_file_path_from_url,
 )
-from services.utils.image_tools import remove_solid_background
+from services.utils.image_tools import remove_solid_background, merge_frames_to_sprite
 from defs import FrameSplitRequest
 
 
@@ -166,65 +166,93 @@ def generate_frame_urls(
     return urls
 
 
-def zip_frames(frame_urls: list[str], name: str, removebg: bool = False) -> str:
+def zip_frames(
+    frame_urls: list[str], name: str, removebg: bool = False, output_type: str = "zip"
+) -> str:
     logger.info(
-        f"Zipping {len(frame_urls)} frames with name: {name}, removebg: {removebg}"
+        f"Processing {len(frame_urls)} frames with name: {name}, output_type: {output_type}, removebg: {removebg}"
     )
+
+    if output_type != "sprite" and removebg:
+        logger.warning(
+            "Background removal is only supported for sprite output. Ignoring removebg for zip output."
+        )
+        removebg = False
 
     cache_folder = get_cache_folder()
     frames_dir = os.path.join(cache_folder, FRAMES_ENDPOINT)
 
-    with tempfile.TemporaryDirectory() as temp_dir:
-        renamed_files = []
+    temp_frame_paths = []
 
-        for i, url in enumerate(frame_urls):
-            parts = url.strip("/").split("/")
-            if len(parts) < 3 or parts[0] != FRAMES_ENDPOINT:
-                logger.warning(f"Invalid frame URL: {url}")
-                continue
-            frame_dir_name = parts[1]
-            filename = parts[2]
+    for i, url in enumerate(frame_urls):
+        parts = url.strip("/").split("/")
+        if len(parts) < 3 or parts[0] != FRAMES_ENDPOINT:
+            logger.warning(f"Invalid frame URL: {url}")
+            continue
+        frame_dir_name = parts[1]
+        filename = parts[2]
 
-            original_path = os.path.join(frames_dir, frame_dir_name, filename)
+        original_path = os.path.join(frames_dir, frame_dir_name, filename)
 
-            if not os.path.exists(original_path):
-                logger.warning(f"Frame file not found: {original_path}")
-                continue
+        if not os.path.exists(original_path):
+            logger.warning(f"Frame file not found: {original_path}")
+            continue
 
-            if removebg:
-                try:
-                    processed_filename = f"processed_{filename}"
-                    processed_path = remove_solid_background(
-                        original_path, processed_filename
-                    )
-                    source_path = processed_path
-                    logger.debug(f"Background removed for frame {i+1}")
-                except Exception as e:
-                    logger.warning(f"Failed to remove background for {filename}: {e}")
-                    source_path = original_path
-            else:
+        if removebg:
+            try:
+                processed_filename = f"processed_{filename}"
+                processed_path = remove_solid_background(
+                    original_path, processed_filename
+                )
+                source_path = processed_path
+                logger.debug(f"Background removed for frame {i+1}")
+            except Exception as e:
+                logger.warning(f"Failed to remove background for {filename}: {e}")
                 source_path = original_path
+        else:
+            source_path = original_path
 
-            ext = os.path.splitext(filename)[1]
-            new_filename = f"{name}_{i:04d}{ext}"
-            new_path = os.path.join(temp_dir, new_filename)
+        temp_frame_paths.append(source_path)
 
-            shutil.copy2(source_path, new_path)
-            renamed_files.append(new_path)
+    if not temp_frame_paths:
+        raise HTTPException(status_code=400, detail="No valid frame files found")
 
-        if not renamed_files:
-            raise HTTPException(status_code=400, detail="No valid frame files found")
+    if output_type == "sprite":
+        sprite_filename = f"{name}_sprite.png"
+        sprite_path = os.path.join(cache_folder, sprite_filename)
+        try:
+            merge_frames_to_sprite(temp_frame_paths, sprite_path)
+            logger.info(
+                f"Sprite file created: {sprite_path}, size: {os.path.getsize(sprite_path)} bytes"
+            )
+            return sprite_path
+        except Exception as e:
+            logger.error(f"Failed to create sprite: {str(e)}")
+            raise HTTPException(
+                status_code=500, detail=f"Failed to create sprite: {str(e)}"
+            )
+    else:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            renamed_files = []
 
-        zip_filename = f"{name}_frames.zip"
-        zip_path = os.path.join(cache_folder, zip_filename)
+            for i, source_path in enumerate(temp_frame_paths):
+                ext = os.path.splitext(source_path)[1]
+                new_filename = f"{name}_{i:04d}{ext}"
+                new_path = os.path.join(temp_dir, new_filename)
 
-        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
-            for file_path in renamed_files:
-                arcname = os.path.basename(file_path)
-                zipf.write(file_path, arcname)
+                shutil.copy2(source_path, new_path)
+                renamed_files.append(new_path)
 
-        logger.info(f"Zip file created: {zip_path}")
-        return zip_path
+            zip_filename = f"{name}_frames.zip"
+            zip_path = os.path.join(cache_folder, zip_filename)
+
+            with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
+                for file_path in renamed_files:
+                    arcname = os.path.basename(file_path)
+                    zipf.write(file_path, arcname)
+
+            logger.info(f"Zip file created: {zip_path}")
+            return zip_path
 
 
 def process_split_frames(request: FrameSplitRequest) -> dict:

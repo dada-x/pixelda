@@ -16,7 +16,8 @@ from defs import (
 )
 from services.gen_models.model_wrapper import ModelRouter
 from services.utils.frame import process_split_frames, zip_frames
-from services.utils.path import get_base_url
+from services.utils.image_tools import merge_frames_to_sprite
+from services.utils.path import get_base_url, get_cache_folder
 
 logger = logging.getLogger(__name__)
 
@@ -219,25 +220,38 @@ async def split_video_frames(request: FrameSplitRequest):
 @router.post("/frames/zip")
 async def zip_frames_endpoint(request: ZipFramesRequest):
     logger.info(
-        f"Zipping {len(request.frame_urls)} frames with name: {request.name}, removebg: {request.removebg}"
+        f"Processing frames with name: {request.name}, output_type: {request.output_type}, removebg: {request.removebg}"
     )
 
     try:
-        zip_path = await asyncio.to_thread(
-            zip_frames, request.frame_urls, request.name, request.removebg
+        result_path = await asyncio.to_thread(
+            zip_frames,
+            request.frame_urls,
+            request.name,
+            request.removebg,
+            request.output_type,
         )
 
-        if not os.path.exists(zip_path):
-            raise HTTPException(status_code=500, detail="Zip file was not created")
+        if not os.path.exists(result_path):
+            raise HTTPException(status_code=500, detail="Output file was not created")
 
-        logger.info(f"Frames zipped successfully: {zip_path}")
+        if request.output_type == "sprite":
+            media_type = "image/png"
+            filename = os.path.basename(result_path)
+        else:
+            media_type = "application/zip"
+            filename = os.path.basename(result_path)
+
+        logger.info(f"Frames processed successfully: {result_path}")
         return FileResponse(
-            path=zip_path,
-            filename=os.path.basename(zip_path),
-            media_type="application/zip",
+            path=result_path,
+            filename=filename,
+            media_type=media_type,
         )
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error zipping frames: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error zipping frames: {str(e)}")
+        logger.error(f"Error processing frames: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Error processing frames: {str(e)}"
+        )

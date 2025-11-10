@@ -41,6 +41,7 @@ export class SpriteSheetComponent implements OnInit, OnDestroy {
   downloadName = '';
   isDownloading = signal(false);
   removeBackground = false;
+  outputType = 'zip';
 
   constructor(
     private generationService: GenerationService,
@@ -213,6 +214,7 @@ export class SpriteSheetComponent implements OnInit, OnDestroy {
       name: this.downloadName.trim(),
       frame_urls: selectedFrameUrls,
       removebg: this.removeBackground,
+      output_type: this.outputType,
     };
 
     this.generationService.zipFrames(request).subscribe({
@@ -226,7 +228,11 @@ export class SpriteSheetComponent implements OnInit, OnDestroy {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `${request.name}_frames.zip`;
+        if (this.outputType === 'sprite') {
+          link.download = `${request.name}_sprite.png`;
+        } else {
+          link.download = `${request.name}_frames.zip`;
+        }
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -347,6 +353,12 @@ export class SpriteSheetComponent implements OnInit, OnDestroy {
     }
 
     return frameUrl;
+  }
+
+  onOutputTypeChange() {
+    if (this.outputType !== 'sprite') {
+      this.removeBackground = false;
+    }
   }
 
   setAnimationFps(fps: number) {
