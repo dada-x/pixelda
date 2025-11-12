@@ -51,7 +51,7 @@
         "RELEASE_NOTES": "📋 版本说明",
         "LATEST_VERSION": "✨ 最新版本：v0.0.2",
         "FEATURE_1": "音乐生成并支持 8-bit 芯片音乐转换",
-        "FEATURE_2": "移除背景（测试版）"
+        "FEATURE_2": "精灵图表背景移除（测试版）"
     },
     "IMAGE_GENERATION": {
         "TITLE": "🎨 图像生成",

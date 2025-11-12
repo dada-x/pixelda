@@ -51,7 +51,7 @@
         "RELEASE_NOTES": "📋 Release Notes",
         "LATEST_VERSION": "✨ Latest Version: v0.0.2",
         "FEATURE_1": "Music generation with 8-bit chiptune conversion",
-        "FEATURE_2": "Background removal (BETA)"
+        "FEATURE_2": "Background removal for sprite sheet (BETA)"
     },
     "IMAGE_GENERATION": {
         "TITLE": "🎨 Image Generation",
