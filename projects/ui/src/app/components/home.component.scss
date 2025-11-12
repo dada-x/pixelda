@@ -7,29 +7,25 @@
 .home-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  min-height: calc(100vh - 40px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 15px;
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
-  padding: 30px 20px;
+  padding: 20px 15px;
   border: 3px solid #a8fbd3;
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .hero-logo {
-  width: 220px;
+  width: 160px;
   height: auto;
   display: block;
-  margin: 0 auto 40px;
+  margin: 0 auto 20px;
   filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
   transition: transform 0.3s ease;
 }
@@ -39,7 +35,7 @@
 }
 
 .hero-title {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 
   .pixel-text {
     font-size: var(--font-size-hero-title);
@@ -66,7 +62,7 @@
 .hero-subtitle {
   font-size: var(--font-size-hero-subtitle);
   color: #e5e7eb;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   text-shadow: 2px 2px 0px rgba(99, 122, 185, 0.5);
   letter-spacing: 1px;
   font-weight: 300;
@@ -76,7 +72,7 @@
   font-size: var(--font-size-hero-description);
   color: #c7c9d1;
   line-height: 1.7;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -155,10 +151,51 @@
   }
 }
 
+.release-notes {
+  margin: 20px 0;
+  padding: 15px;
+  text-align: left;
+}
+
+.release-notes h2 {
+  color: #a8fbd3;
+  font-size: var(--font-size-lg);
+  margin-bottom: 16px;
+}
+
+.release-notes p {
+  color: #e5e7eb;
+  font-size: var(--font-size-md);
+  margin-bottom: 12px;
+}
+
+.release-notes ul {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0 0;
+  text-align: left;
+}
+
+.release-notes li {
+  color: #c7c9d1;
+  font-size: var(--font-size-md);
+  margin-bottom: 8px;
+  margin-left: 16px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.release-notes li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #a8fbd3;
+}
+
 .footer {
-  margin-top: 60px;
+  margin-top: 30px;
   border-top: 2px solid #637ab9;
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 .footer-content {
@@ -206,7 +243,7 @@
 
 .footer-bottom {
   text-align: center;
-  padding-top: 24px;
+  padding-top: 12px;
   border-top: 1px solid #637ab9;
 }
 

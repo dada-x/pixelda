@@ -47,7 +47,11 @@
         "SUPPORT": "Support",
         "GITHUB": "GitHub",
         "EMAIL": "shu2deguanhuai@hotmail.com",
-        "COPYRIGHT": "© 2025 PixelDA. Built with ❤️ for indie game developers."
+        "COPYRIGHT": "© 2025 PixelDA. Built with ❤️ for indie game developers.",
+        "RELEASE_NOTES": "📋 Release Notes",
+        "LATEST_VERSION": "✨ Latest Version: v0.0.2",
+        "FEATURE_1": "Music generation with 8-bit chiptune conversion",
+        "FEATURE_2": "Background removal (BETA)"
     },
     "IMAGE_GENERATION": {
         "TITLE": "🎨 Image Generation",
